@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abuelo Julio — Portal de Pedidos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #F7F3EC;
+      --warm:     #EDE5D8;
+      --brown:    #5C3D2E;
+      --brown-lt: #8B6552;
+      --gold:     #C8A96E;
+      --text:     #2C1810;
+      --text-lt:  #7A6358;
+      --border:   #D9CFC4;
+      --white:    #FFFFFF;
+      --error:    #C0392B;
+      --success:  #2E7D5E;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── VIEWS ── */
+    .view { display: none; min-height: 100vh; }
+    .view.active { display: flex; }
+
+    /* ── LOGIN VIEW ── */
+    #view-login {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #view-login::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(200,169,110,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(92,61,46,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .login-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+      box-shadow: 0 2px 40px rgba(44,24,16,0.08);
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-wrap {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo-wrap img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+    }
+
+    .logo-wrap h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 400;
+      color: var(--brown);
+      margin-top: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .logo-wrap p {
+      font-size: 0.8rem;
+      color: var(--text-lt);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 1.5rem 0;
+    }
+
+    .form-group { margin-bottom: 1.25rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-lt);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,169,110,0.15);
+      background: var(--white);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--brown);
+      color: var(--white);
+      border: none;
+      border-radius: 3px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary:hover  { background: var(--brown-lt); }
+    .btn-primary:active { transform: scale(0.99); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .msg {
+      margin-top: 1rem;
+      padding: 0.7rem 1rem;
+      border-radius: 3px;
+      font-size: 0.85rem;
+      text-align: center;
+      display: none;
+    }
+    .msg.error   { background: #fdf0ef; color: var(--error);   border: 1px solid #f5c6c2; display: block; }
+    .msg.success { background: #edf7f3; color: var(--success); border: 1px solid #b8dece; display: block; }
+
+    /* ── SET PASSWORD VIEW ── */
+    #view-setpass {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* ── PEDIDOS VIEW ── */
+    #view-pedidos {
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .top-bar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .top-bar-brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--gold);
+    }
+
+    .top-bar-brand span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--brown);
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    #user-label {
+      font-size: 0.8rem;
+      color: var(--text-lt);
+    }
+
+    .btn-logout {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 0.4rem 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-lt);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-logout:hover { border-color: var(--brown); color: var(--brown); }
+
+    .pedidos-content {
+      padding: 2.5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .pedidos-header {
+      margin-bottom: 2rem;
+    }
+
+    .pedidos-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--brown);
+    }
+
+    .pedidos-header p {
+      font-size: 0.85rem;
+      color: var(--text-lt);
+      margin-top: 0.25rem;
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 4rem 0;
+      color: var(--text-lt);
+      font-size: 0.9rem;
+    }
+
+    .loading-state .spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 0;
+      color: var(--text-lt);
+    }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      stroke: var(--border);
+      margin-bottom: 1rem;
+    }
+
+    /* ── PEDIDO CARD ── */
+    .pedido-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+      animation: fadeUp 0.4s ease both;
+      box-shadow: 0 1px 8px rgba(44,24,16,0.04);
+    }
+
+    .pedido-card:nth-child(2) { animation-delay: 0.05s; }
+    .pedido-card:nth-child(3) { animation-delay: 0.10s; }
+    .pedido-card:nth-child(4) { animation-delay: 0.15s; }
+    .pedido-card:nth-child(5) { animation-delay: 0.20s; }
+
+    .pedido-card-header {
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--warm);
+      background: var(--cream);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .pedido-card-header:hover { background: var(--warm); }
+
+    .pedido-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--brown);
+      letter-spacing: 0.02em;
+    }
+
+    .pedido-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .pedido-fecha {
+      font-size: 0.8rem;
+      color: var(--text-lt);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .pedido-fecha svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .pedido-badge {
+      background: var(--gold);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    .chevron {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-lt);
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .pedido-card.open .chevron { transform: rotate(180deg); }
+
+    .pedido-card-body {
+      display: none;
+      padding: 0;
+    }
+
+    .pedido-card.open .pedido-card-body { display: block; }
+
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .items-table th {
+      padding: 0.6rem 1.5rem;
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-lt);
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .items-table td {
+      padding: 0.85rem 1.5rem;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--warm);
+      color: var(--text);
+    }
+
+    .items-table tr:last-child td { border-bottom: none; }
+    .items-table tr:hover td { background: #faf7f3; }
+
+    .qty-cell {
+      font-weight: 500;
+      color: var(--brown);
+    }
+
+    .unit-chip {
+      display: inline-block;
+      background: var(--warm);
+      color: var(--brown-lt);
+      font-size: 0.72rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .login-card { padding: 2rem 1.5rem; }
+      .pedidos-content { padding: 1.5rem 1rem; }
+      .top-bar { padding: 0.75rem 1rem; }
+      .pedido-meta { gap: 0.75rem; }
+      .items-table th,
+      .items-table td { padding: 0.7rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     VIEW: LOGIN
+══════════════════════════════════════════ -->
+<div id="view-login" class="view active">
+  <div class="login-card">
+    <div class="logo-wrap">
+      <img id="logo-login" src="https://raw.githubusercontent.com/OMAXING/AbueloJulio/main/Abuelo%20Julio.jpeg" alt="Abuelo Julio" onerror="this.style.display='none'" />
+      <h1>Abuelo Julio</h1>
+      <p>Portal de Pedidos</p>
+    </div>
+    <div class="divider"></div>
+    <div class="form-group">
+      <label>Correo electrónico</label>
+      <input type="email" id="login-mail" placeholder="tu@correo.com" autocomplete="email" />
+    </div>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <button class="btn-primary" id="btn-login">Ingresar</button>
+    <div class="msg" id="login-msg"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VIEW: SET PASSWORD
+══════════════════════════════════════════ -->
+<div id="view-setpass" class="view">
+  <div class="login-card">
+    <div class="logo-wrap">
+      <img src="https://raw.githubusercontent.com/OMAXING/AbueloJulio/main/Abuelo%20Julio.jpeg" alt="Abuelo Julio" onerror="this.style.display='none'" />
+      <h1>Abuelo Julio</h1>
+      <p>Crear contraseña</p>
+    </div>
+    <div class="divider"></div>
+    <p style="font-size:0.88rem; color:var(--text-lt); margin-bottom:1.5rem; text-align:center; line-height:1.5;">
+      Es tu primer ingreso. Por favor creá una contraseña para tu cuenta.
+    </p>
+    <div class="form-group">
+      <label>Nueva contraseña</label>
+      <input type="password" id="setpass-new" placeholder="Mínimo 6 caracteres" />
+    </div>
+    <div class="form-group">
+      <label>Confirmá la contraseña</label>
+      <input type="password" id="setpass-confirm" placeholder="Repetí tu contraseña" />
+    </div>
+    <button class="btn-primary" id="btn-setpass">Guardar contraseña</button>
+    <div class="msg" id="setpass-msg"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VIEW: PEDIDOS
+══════════════════════════════════════════ -->
+<div id="view-pedidos" class="view">
+  <header class="top-bar">
+    <div class="top-bar-brand">
+      <img src="https://raw.githubusercontent.com/OMAXING/AbueloJulio/main/Abuelo%20Julio.jpeg" alt="Abuelo Julio" onerror="this.style.display='none'" />
+      <span>Abuelo Julio</span>
+    </div>
+    <div class="top-bar-right">
+      <span id="user-label"></span>
+      <button class="btn-logout" id="btn-logout">Salir</button>
+    </div>
+  </header>
+
+  <div class="pedidos-content">
+    <div class="pedidos-header">
+      <h2>Mis Pedidos</h2>
+      <p id="pedidos-subtitle">Cargando tus pedidos...</p>
+    </div>
+    <div id="pedidos-list">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        Cargando pedidos...
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────
+  const API_URL = "https://script.google.com/macros/s/AKfycbwj2wDOjwwve5DmnYUPQkm91b11DDpiSw7r4xDNXiRrdPdXtga2xOB4wS7babLXM2jA/exec"; // ← reemplazá con la URL del deployment
+
+  // ── STATE ───────────────────────────────────────────────
+  let currentMail = "";
+  let currentClienteId = "";
+
+  // ── UTILS ───────────────────────────────────────────────
+  function showView(id) {
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+
+  function showMsg(elId, text, type) {
+    const el = document.getElementById(elId);
+    el.textContent = text;
+    el.className = "msg " + type;
+  }
+
+  function clearMsg(elId) {
+    const el = document.getElementById(elId);
+    el.className = "msg";
+    el.textContent = "";
+  }
+
+  async function api(payload) {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" }
+    });
+    return res.json();
+  }
+
+  // ── LOGIN ────────────────────────────────────────────────
+  document.getElementById("btn-login").addEventListener("click", async () => {
+    clearMsg("login-msg");
+    const mail = document.getElementById("login-mail").value.trim();
+    const pass = document.getElementById("login-pass").value.trim();
+
+    if (!mail) { showMsg("login-msg", "Ingresá tu correo electrónico.", "error"); return; }
+
+    const btn = document.getElementById("btn-login");
+    btn.disabled = true;
+    btn.textContent = "Verificando...";
+
+    try {
+      const data = await api({ action: "login", mail, pass });
+
+      if (!data.success && data.error) {
+        showMsg("login-msg", data.error, "error");
+        return;
+      }
+
+      currentMail = data.mail;
+      currentClienteId = data.clienteId;
+
+      if (data.status === "no_password") {
+        showView("view-setpass");
+      } else if (data.status === "ok") {
+        enterPedidos();
+      }
+    } catch (e) {
+      showMsg("login-msg", "Error de conexión. Intentá de nuevo.", "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Ingresar";
+    }
+  });
+
+  // Enter key en login
+  ["login-mail", "login-pass"].forEach(id => {
+    document.getElementById(id).addEventListener("keydown", e => {
+      if (e.key === "Enter") document.getElementById("btn-login").click();
+    });
+  });
+
+  // ── SET PASSWORD ─────────────────────────────────────────
+  document.getElementById("btn-setpass").addEventListener("click", async () => {
+    clearMsg("setpass-msg");
+    const newPass     = document.getElementById("setpass-new").value.trim();
+    const confirmPass = document.getElementById("setpass-confirm").value.trim();
+
+    if (!newPass || newPass.length < 6) {
+      showMsg("setpass-msg", "La contraseña debe tener al menos 6 caracteres.", "error"); return;
+    }
+    if (newPass !== confirmPass) {
+      showMsg("setpass-msg", "Las contraseñas no coinciden.", "error"); return;
+    }
+
+    const btn = document.getElementById("btn-setpass");
+    btn.disabled = true;
+    btn.textContent = "Guardando...";
+
+    try {
+      const data = await api({ action: "setPassword", mail: currentMail, pass: newPass });
+      if (data.success) {
+        showMsg("setpass-msg", "¡Contraseña creada! Ingresando...", "success");
+        setTimeout(() => enterPedidos(), 1000);
+      } else {
+        showMsg("setpass-msg", data.error || "Error al guardar.", "error");
+      }
+    } catch (e) {
+      showMsg("setpass-msg", "Error de conexión.", "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Guardar contraseña";
+    }
+  });
+
+  // ── PEDIDOS ──────────────────────────────────────────────
+  function enterPedidos() {
+    document.getElementById("user-label").textContent = currentMail;
+    showView("view-pedidos");
+    loadPedidos();
+  }
+
+  async function loadPedidos() {
+    const listEl = document.getElementById("pedidos-list");
+    listEl.innerHTML = `<div class="loading-state"><div class="spinner"></div>Cargando pedidos...</div>`;
+    document.getElementById("pedidos-subtitle").textContent = "Cargando tus pedidos...";
+
+    try {
+      const data = await api({ action: "getPedidos", clienteId: currentClienteId });
+
+      if (!data.success) {
+        listEl.innerHTML = `<div class="empty-state"><p>Error al cargar pedidos.</p></div>`;
+        return;
+      }
+
+      const pedidos = data.pedidos || [];
+      document.getElementById("pedidos-subtitle").textContent =
+        pedidos.length === 0 ? "No tenés pedidos registrados." :
+        pedidos.length === 1 ? "1 pedido registrado" :
+        `${pedidos.length} pedidos registrados`;
+
+      if (pedidos.length === 0) {
+        listEl.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+              <rect x="9" y="3" width="6" height="4" rx="1"/>
+            </svg>
+            <p>No tenés pedidos registrados todavía.</p>
+          </div>`;
+        return;
+      }
+
+      listEl.innerHTML = pedidos.map((p, idx) => `
+        <div class="pedido-card" id="card-${idx}">
+          <div class="pedido-card-header" onclick="toggleCard(${idx})">
+            <div class="pedido-num">Pedido #${escHtml(p.pedidoNumero)}</div>
+            <div class="pedido-meta">
+              ${p.fecha ? `
+              <span class="pedido-fecha">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <path d="M16 2v4M8 2v4M3 10h18"/>
+                </svg>
+                Entrega: ${escHtml(p.fecha)}
+              </span>` : ""}
+              <span class="pedido-badge">${p.items.length} ${p.items.length === 1 ? "item" : "items"}</span>
+            </div>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </div>
+          <div class="pedido-card-body">
+            <table class="items-table">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Unidad</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${p.items.map(item => `
+                  <tr>
+                    <td>${escHtml(item.producto)}</td>
+                    <td class="qty-cell">${escHtml(String(item.cantidad))}</td>
+                    <td><span class="unit-chip">${escHtml(item.unidad)}</span></td>
+                  </tr>`).join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `).join("");
+
+      // Abrir el primero por defecto
+      if (pedidos.length > 0) toggleCard(0);
+
+    } catch (e) {
+      listEl.innerHTML = `<div class="empty-state"><p>Error de conexión. Intentá de nuevo.</p></div>`;
+      document.getElementById("pedidos-subtitle").textContent = "";
+    }
+  }
+
+  function toggleCard(idx) {
+    const card = document.getElementById("card-" + idx);
+    card.classList.toggle("open");
+  }
+
+  function escHtml(str) {
+    return String(str || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  // ── LOGOUT ───────────────────────────────────────────────
+  document.getElementById("btn-logout").addEventListener("click", () => {
+    currentMail = "";
+    currentClienteId = "";
+    document.getElementById("login-mail").value = "";
+    document.getElementById("login-pass").value = "";
+    document.getElementById("pedidos-list").innerHTML = "";
+    clearMsg("login-msg");
+    showView("view-login");
+  });
+</script>
+</body>
+</html>
