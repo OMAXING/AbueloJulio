@@ -33,11 +33,10 @@
       line-height: 1.6;
     }
 
-    /* ── VIEWS ── */
     .view { display: none; min-height: 100vh; }
     .view.active { display: flex; }
 
-    /* ── LOGIN VIEW ── */
+    /* ── LOGIN ── */
     #view-login {
       flex-direction: column;
       align-items: center;
@@ -74,10 +73,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .logo-wrap {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+    .logo-wrap { text-align: center; margin-bottom: 2rem; }
 
     .logo-wrap img {
       width: 90px;
@@ -173,7 +169,7 @@
     .msg.error   { background: #fdf0ef; color: var(--error);   border: 1px solid #f5c6c2; display: block; }
     .msg.success { background: #edf7f3; color: var(--success); border: 1px solid #b8dece; display: block; }
 
-    /* ── SET PASSWORD VIEW ── */
+    /* ── SET PASSWORD ── */
     #view-setpass {
       flex-direction: column;
       align-items: center;
@@ -181,11 +177,8 @@
       padding: 2rem;
     }
 
-    /* ── PEDIDOS VIEW ── */
-    #view-pedidos {
-      flex-direction: column;
-      min-height: 100vh;
-    }
+    /* ── PEDIDOS ── */
+    #view-pedidos { flex-direction: column; }
 
     .top-bar {
       background: var(--white);
@@ -199,11 +192,7 @@
       z-index: 10;
     }
 
-    .top-bar-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+    .top-bar-brand { display: flex; align-items: center; gap: 0.75rem; }
 
     .top-bar-brand img {
       width: 38px;
@@ -220,16 +209,9 @@
       color: var(--brown);
     }
 
-    .top-bar-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+    .top-bar-right { display: flex; align-items: center; gap: 1rem; }
 
-    #user-label {
-      font-size: 0.8rem;
-      color: var(--text-lt);
-    }
+    #user-label { font-size: 0.8rem; color: var(--text-lt); }
 
     .btn-logout {
       background: none;
@@ -254,9 +236,7 @@
       width: 100%;
     }
 
-    .pedidos-header {
-      margin-bottom: 2rem;
-    }
+    .pedidos-header { margin-bottom: 2rem; }
 
     .pedidos-header h2 {
       font-family: 'Cormorant Garamond', serif;
@@ -265,11 +245,7 @@
       color: var(--brown);
     }
 
-    .pedidos-header p {
-      font-size: 0.85rem;
-      color: var(--text-lt);
-      margin-top: 0.25rem;
-    }
+    .pedidos-header p { font-size: 0.85rem; color: var(--text-lt); margin-top: 0.25rem; }
 
     .loading-state {
       text-align: center;
@@ -290,11 +266,7 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .empty-state {
-      text-align: center;
-      padding: 4rem 0;
-      color: var(--text-lt);
-    }
+    .empty-state { text-align: center; padding: 4rem 0; color: var(--text-lt); }
 
     .empty-state svg {
       width: 48px;
@@ -340,11 +312,7 @@
       letter-spacing: 0.02em;
     }
 
-    .pedido-meta {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
+    .pedido-meta { display: flex; align-items: center; gap: 1.5rem; }
 
     .pedido-fecha {
       font-size: 0.8rem;
@@ -354,12 +322,7 @@
       gap: 0.4rem;
     }
 
-    .pedido-fecha svg {
-      width: 14px;
-      height: 14px;
-      stroke: var(--gold);
-      flex-shrink: 0;
-    }
+    .pedido-fecha svg { width: 14px; height: 14px; stroke: var(--gold); flex-shrink: 0; }
 
     .pedido-badge {
       background: var(--gold);
@@ -382,17 +345,10 @@
 
     .pedido-card.open .chevron { transform: rotate(180deg); }
 
-    .pedido-card-body {
-      display: none;
-      padding: 0;
-    }
-
+    .pedido-card-body { display: none; }
     .pedido-card.open .pedido-card-body { display: block; }
 
-    .items-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+    .items-table { width: 100%; border-collapse: collapse; }
 
     .items-table th {
       padding: 0.6rem 1.5rem;
@@ -416,10 +372,7 @@
     .items-table tr:last-child td { border-bottom: none; }
     .items-table tr:hover td { background: #faf7f3; }
 
-    .qty-cell {
-      font-weight: 500;
-      color: var(--brown);
-    }
+    .qty-cell { font-weight: 500; color: var(--brown); }
 
     .unit-chip {
       display: inline-block;
@@ -432,7 +385,6 @@
       letter-spacing: 0.04em;
     }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
       .login-card { padding: 2rem 1.5rem; }
       .pedidos-content { padding: 1.5rem 1rem; }
@@ -445,13 +397,11 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════
-     VIEW: LOGIN
-══════════════════════════════════════════ -->
+<!-- LOGIN -->
 <div id="view-login" class="view active">
   <div class="login-card">
     <div class="logo-wrap">
-      <img id="logo-login" src="https://raw.githubusercontent.com/OMAXING/AbueloJulio/main/Abuelo%20Julio.jpeg" alt="Abuelo Julio" onerror="this.style.display='none'" />
+      <img src="https://raw.githubusercontent.com/OMAXING/AbueloJulio/main/Abuelo%20Julio.jpeg" alt="Abuelo Julio" onerror="this.style.display='none'" />
       <h1>Abuelo Julio</h1>
       <p>Portal de Pedidos</p>
     </div>
@@ -469,9 +419,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     VIEW: SET PASSWORD
-══════════════════════════════════════════ -->
+<!-- SET PASSWORD -->
 <div id="view-setpass" class="view">
   <div class="login-card">
     <div class="logo-wrap">
@@ -496,9 +444,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     VIEW: PEDIDOS
-══════════════════════════════════════════ -->
+<!-- PEDIDOS -->
 <div id="view-pedidos" class="view">
   <header class="top-bar">
     <div class="top-bar-brand">
@@ -526,14 +472,14 @@
 </div>
 
 <script>
-  // ── CONFIG ──────────────────────────────────────────────
-  const API_URL = "https://script.google.com/macros/s/AKfycbwj2wDOjwwve5DmnYUPQkm91b11DDpiSw7r4xDNXiRrdPdXtga2xOB4wS7babLXM2jA/exec"; // ← reemplazá con la URL del deployment
+  // ── CONFIG — reemplazá con la URL de tu nuevo deployment ──
+  const API_URL = "https://script.google.com/macros/s/AKfycbyPk-qyMsNeFhQB7bp6ssVejWW8YiNeVfRv4ZOOs2vLZr_x3vMb3cZzwVkaLQj4Q4WG/exec";
 
-  // ── STATE ───────────────────────────────────────────────
-  let currentMail = "";
+  // ── STATE ─────────────────────────────────────────────────
+  let currentMail      = "";
   let currentClienteId = "";
 
-  // ── UTILS ───────────────────────────────────────────────
+  // ── UTILS ─────────────────────────────────────────────────
   function showView(id) {
     document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
     document.getElementById(id).classList.add("active");
@@ -551,16 +497,17 @@
     el.textContent = "";
   }
 
+  // Llamada GET para evitar CORS
   async function api(payload) {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: { "Content-Type": "application/json" }
+    const params = new URLSearchParams({ data: JSON.stringify(payload) });
+    const res = await fetch(API_URL + "?" + params.toString(), {
+      method: "GET",
+      redirect: "follow"
     });
     return res.json();
   }
 
-  // ── LOGIN ────────────────────────────────────────────────
+  // ── LOGIN ─────────────────────────────────────────────────
   document.getElementById("btn-login").addEventListener("click", async () => {
     clearMsg("login-msg");
     const mail = document.getElementById("login-mail").value.trim();
@@ -575,12 +522,12 @@
     try {
       const data = await api({ action: "login", mail, pass });
 
-      if (!data.success && data.error) {
-        showMsg("login-msg", data.error, "error");
+      if (!data.success) {
+        showMsg("login-msg", data.error || "Error al ingresar.", "error");
         return;
       }
 
-      currentMail = data.mail;
+      currentMail      = data.mail;
       currentClienteId = data.clienteId;
 
       if (data.status === "no_password") {
@@ -589,6 +536,7 @@
         enterPedidos();
       }
     } catch (e) {
+      console.error(e);
       showMsg("login-msg", "Error de conexión. Intentá de nuevo.", "error");
     } finally {
       btn.disabled = false;
@@ -596,14 +544,13 @@
     }
   });
 
-  // Enter key en login
   ["login-mail", "login-pass"].forEach(id => {
     document.getElementById(id).addEventListener("keydown", e => {
       if (e.key === "Enter") document.getElementById("btn-login").click();
     });
   });
 
-  // ── SET PASSWORD ─────────────────────────────────────────
+  // ── SET PASSWORD ──────────────────────────────────────────
   document.getElementById("btn-setpass").addEventListener("click", async () => {
     clearMsg("setpass-msg");
     const newPass     = document.getElementById("setpass-new").value.trim();
@@ -629,6 +576,7 @@
         showMsg("setpass-msg", data.error || "Error al guardar.", "error");
       }
     } catch (e) {
+      console.error(e);
       showMsg("setpass-msg", "Error de conexión.", "error");
     } finally {
       btn.disabled = false;
@@ -636,7 +584,7 @@
     }
   });
 
-  // ── PEDIDOS ──────────────────────────────────────────────
+  // ── PEDIDOS ───────────────────────────────────────────────
   function enterPedidos() {
     document.getElementById("user-label").textContent = currentMail;
     showView("view-pedidos");
@@ -715,18 +663,17 @@
         </div>
       `).join("");
 
-      // Abrir el primero por defecto
       if (pedidos.length > 0) toggleCard(0);
 
     } catch (e) {
+      console.error(e);
       listEl.innerHTML = `<div class="empty-state"><p>Error de conexión. Intentá de nuevo.</p></div>`;
       document.getElementById("pedidos-subtitle").textContent = "";
     }
   }
 
   function toggleCard(idx) {
-    const card = document.getElementById("card-" + idx);
-    card.classList.toggle("open");
+    document.getElementById("card-" + idx).classList.toggle("open");
   }
 
   function escHtml(str) {
@@ -737,9 +684,9 @@
       .replace(/"/g, "&quot;");
   }
 
-  // ── LOGOUT ───────────────────────────────────────────────
+  // ── LOGOUT ────────────────────────────────────────────────
   document.getElementById("btn-logout").addEventListener("click", () => {
-    currentMail = "";
+    currentMail      = "";
     currentClienteId = "";
     document.getElementById("login-mail").value = "";
     document.getElementById("login-pass").value = "";
