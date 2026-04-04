@@ -493,28 +493,6 @@
 
     .pedido-card.open .pedido-body{ display:block; }
 
-    .pedido-extra{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(220px, 1fr));
-      gap:.8rem;
-      margin-bottom:1rem;
-    }
-
-    .pedido-extra .box{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:.75rem .85rem;
-      background:rgba(255,255,255,.02);
-    }
-
-    .pedido-extra .box .k{
-      color:var(--text2);
-      font-size:.75rem;
-      text-transform:uppercase;
-      letter-spacing:.11em;
-      margin-bottom:.25rem;
-    }
-
     table{
       width:100%;
       border-collapse:collapse;
@@ -651,7 +629,7 @@
       .top-right{ width:100%; justify-content:flex-start; }
       .main{ padding:1rem; }
       .page-head-top{ flex-direction:column; }
-      .line-item, .modal-grid, .pedido-extra{
+      .line-item, .modal-grid{
         grid-template-columns:1fr;
       }
       .pedido-head{
@@ -813,31 +791,6 @@
           <label>Fecha del pedido</label>
           <input type="date" id="pedido-fecha" />
         </div>
-
-        <div class="form-group">
-          <label>Tipo de factura</label>
-          <input type="text" id="pedido-tipo-factura" placeholder="Opcional" />
-        </div>
-
-        <div class="form-group">
-          <label>Modo de entrega</label>
-          <input type="text" id="pedido-modo-entrega" placeholder="Opcional" />
-        </div>
-
-        <div class="form-group">
-          <label>Entrega</label>
-          <input type="text" id="pedido-entrega" placeholder="Opcional" />
-        </div>
-
-        <div class="form-group" style="grid-column:1 / -1;">
-          <label>Dirección de entrega</label>
-          <input type="text" id="pedido-direccion-entrega" placeholder="Opcional" />
-        </div>
-
-        <div class="form-group" style="grid-column:1 / -1;">
-          <label>Comentario</label>
-          <textarea id="pedido-comentario" placeholder="Opcional"></textarea>
-        </div>
       </div>
 
       <div id="line-items-wrap"></div>
@@ -851,7 +804,7 @@
 </div>
 
 <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbzd3sAQupTqmeABqImDNm-zCvnqXPtTuOKn7FRd0FvhjCxLdn3X1oB77oS9qvvi05v3/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycby0T0NJYDh62JpPnnHuAAXXWl9wm-h3KobwpJnx4jShDLmD7EIv5FsZ5WIb2HcCMbNv/exec";
 
   let currentMail = "";
   let currentClienteId = "";
@@ -930,11 +883,6 @@
     clearMsg("pedido-modal-msg");
     document.getElementById("line-items-wrap").innerHTML = "";
     document.getElementById("pedido-fecha").value = "";
-    document.getElementById("pedido-comentario").value = "";
-    document.getElementById("pedido-modo-entrega").value = "";
-    document.getElementById("pedido-direccion-entrega").value = "";
-    document.getElementById("pedido-tipo-factura").value = "";
-    document.getElementById("pedido-entrega").value = "";
     editingPedidoId = "";
     savingPedido = false;
     const btn = document.getElementById("btn-save-pedido");
@@ -1098,33 +1046,6 @@
                   </div>
 
                   <div class="pedido-body">
-                    <div class="pedido-extra">
-                      <div class="box">
-                        <div class="k">Fecha del pedido</div>
-                        <div>${escHtml(p.fechaPedido || "-")}</div>
-                      </div>
-                      <div class="box">
-                        <div class="k">Tipo de factura</div>
-                        <div>${escHtml(p.tipoFactura || "-")}</div>
-                      </div>
-                      <div class="box">
-                        <div class="k">Modo de entrega</div>
-                        <div>${escHtml(p.modoEntrega || "-")}</div>
-                      </div>
-                      <div class="box">
-                        <div class="k">Entrega</div>
-                        <div>${escHtml(p.entrega || "-")}</div>
-                      </div>
-                      <div class="box" style="grid-column:1 / -1;">
-                        <div class="k">Dirección de entrega</div>
-                        <div>${escHtml(p.direccionEntrega || "-")}</div>
-                      </div>
-                      <div class="box" style="grid-column:1 / -1;">
-                        <div class="k">Comentario</div>
-                        <div>${escHtml(p.comentario || "-")}</div>
-                      </div>
-                    </div>
-
                     <table>
                       <thead>
                         <tr>
@@ -1199,11 +1120,6 @@
     editingPedidoId = "";
     document.getElementById("pedido-modal-title").textContent = "Nuevo Pedido";
     document.getElementById("line-items-wrap").innerHTML = "";
-    document.getElementById("pedido-comentario").value = "";
-    document.getElementById("pedido-modo-entrega").value = "";
-    document.getElementById("pedido-direccion-entrega").value = "";
-    document.getElementById("pedido-tipo-factura").value = "";
-    document.getElementById("pedido-entrega").value = "";
     setTodayInModal();
     addLineItemRow();
     showModal();
@@ -1217,11 +1133,6 @@
     document.getElementById("pedido-modal-title").textContent = "Editar Pedido #" + pedido.pedidoNumero;
     document.getElementById("line-items-wrap").innerHTML = "";
     document.getElementById("pedido-fecha").value = pedido.fechaPedidoInput || "";
-    document.getElementById("pedido-comentario").value = pedido.comentario || "";
-    document.getElementById("pedido-modo-entrega").value = pedido.modoEntrega || "";
-    document.getElementById("pedido-direccion-entrega").value = pedido.direccionEntrega || "";
-    document.getElementById("pedido-tipo-factura").value = pedido.tipoFactura || "";
-    document.getElementById("pedido-entrega").value = pedido.entrega || "";
 
     if (pedido.items && pedido.items.length){
       pedido.items.forEach(item => {
@@ -1246,11 +1157,6 @@
     document.getElementById("pedido-modal-title").textContent = "Duplicar Pedido #" + pedido.pedidoNumero;
     document.getElementById("line-items-wrap").innerHTML = "";
     setTodayInModal();
-    document.getElementById("pedido-comentario").value = pedido.comentario || "";
-    document.getElementById("pedido-modo-entrega").value = pedido.modoEntrega || "";
-    document.getElementById("pedido-direccion-entrega").value = pedido.direccionEntrega || "";
-    document.getElementById("pedido-tipo-factura").value = pedido.tipoFactura || "";
-    document.getElementById("pedido-entrega").value = pedido.entrega || "";
 
     (pedido.items || []).forEach(item => {
       addLineItemRow({
@@ -1271,11 +1177,6 @@
 
     const items = collectLineItems();
     const pedidoFecha = document.getElementById("pedido-fecha").value;
-    const comentario = document.getElementById("pedido-comentario").value.trim();
-    const modoEntrega = document.getElementById("pedido-modo-entrega").value.trim();
-    const direccionEntrega = document.getElementById("pedido-direccion-entrega").value.trim();
-    const tipoFactura = document.getElementById("pedido-tipo-factura").value.trim();
-    const entrega = document.getElementById("pedido-entrega").value.trim();
 
     if (!pedidoFecha){
       showMsg("pedido-modal-msg", "Seleccioná una fecha para el pedido.", "error");
@@ -1311,11 +1212,6 @@
             clienteId: currentClienteId,
             mail: currentMail,
             pedidoFecha,
-            comentario,
-            modoEntrega,
-            direccionEntrega,
-            tipoFactura,
-            entrega,
             items
           }
         : {
@@ -1323,11 +1219,6 @@
             clienteId: currentClienteId,
             mail: currentMail,
             pedidoFecha,
-            comentario,
-            modoEntrega,
-            direccionEntrega,
-            tipoFactura,
-            entrega,
             items
           };
 
