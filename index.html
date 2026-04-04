@@ -6,400 +6,554 @@
   <title>Abuelo Julio — Portal de Pedidos</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --cream:    #F7F3EC;
-      --warm:     #EDE5D8;
-      --brown:    #5C3D2E;
-      --brown-lt: #8B6552;
-      --gold:     #C8A96E;
-      --text:     #2C1810;
-      --text-lt:  #7A6358;
-      --border:   #D9CFC4;
-      --white:    #FFFFFF;
-      --error:    #C0392B;
-      --success:  #2E7D5E;
+    :root{
+      --bg:#0f0f10;
+      --bg-2:#161718;
+      --panel:#1d1f21;
+      --panel-2:#232528;
+      --line:#31343a;
+      --text:#f5f5f4;
+      --text-2:#b4b7bd;
+      --muted:#8c9097;
+      --accent:#d4b077;
+      --accent-2:#e8c995;
+      --white:#ffffff;
+      --error:#ff7b72;
+      --success:#57c08b;
+      --chip:#2a2d31;
     }
 
     html, body {
-      height: 100%;
-      background: var(--cream);
+      min-height: 100%;
+      background: linear-gradient(180deg, #0d0d0e 0%, #151618 100%);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
-    .view { display: none; min-height: 100vh; }
-    .view.active { display: flex; }
+    .view { display:none; min-height:100vh; }
+    .view.active { display:flex; }
 
-    /* ── LOGIN ── */
-    #view-login {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
+    /* LOGIN */
+    #view-login, #view-setpass {
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+      position:relative;
+      overflow:hidden;
     }
 
-    #view-login::before {
-      content: '';
-      position: absolute;
-      inset: 0;
+    #view-login::before, #view-setpass::before{
+      content:"";
+      position:absolute;
+      inset:0;
       background:
-        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(200,169,110,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(92,61,46,0.08) 0%, transparent 60%);
-      pointer-events: none;
+        radial-gradient(circle at 15% 15%, rgba(212,176,119,0.12), transparent 30%),
+        radial-gradient(circle at 85% 80%, rgba(255,255,255,0.05), transparent 28%);
+      pointer-events:none;
     }
 
-    .login-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 3rem 2.5rem;
-      width: 100%;
-      max-width: 400px;
-      position: relative;
-      box-shadow: 0 2px 40px rgba(44,24,16,0.08);
-      animation: fadeUp 0.5s ease both;
+    .auth-card{
+      width:100%;
+      max-width:440px;
+      background:rgba(29,31,33,0.96);
+      border:1px solid rgba(212,176,119,0.18);
+      border-radius:20px;
+      padding:2.25rem;
+      box-shadow:0 30px 80px rgba(0,0,0,0.35);
+      position:relative;
+      z-index:1;
+      backdrop-filter: blur(8px);
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .logo-wrap{
+      text-align:center;
+      margin-bottom:1.75rem;
     }
 
-    .logo-wrap { text-align: center; margin-bottom: 2rem; }
-
-    .logo-wrap img {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--gold);
+    .logo-wrap img{
+      width:132px;
+      height:132px;
+      border-radius:50%;
+      object-fit:cover;
+      border:3px solid rgba(212,176,119,0.55);
+      box-shadow:0 10px 40px rgba(0,0,0,0.28);
     }
 
-    .logo-wrap h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.9rem;
-      font-weight: 400;
-      color: var(--brown);
-      margin-top: 0.75rem;
-      letter-spacing: 0.02em;
+    .logo-wrap h1{
+      font-family:'Playfair Display', serif;
+      font-size:2rem;
+      font-weight:600;
+      margin-top:1rem;
+      letter-spacing:0.02em;
     }
 
-    .logo-wrap p {
-      font-size: 0.8rem;
-      color: var(--text-lt);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-top: 0.2rem;
+    .logo-wrap p{
+      color:var(--text-2);
+      font-size:0.82rem;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      margin-top:0.3rem;
     }
 
-    .divider {
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--border), transparent);
-      margin: 1.5rem 0;
+    .divider{
+      height:1px;
+      background:linear-gradient(90deg, transparent, rgba(212,176,119,0.35), transparent);
+      margin:1.4rem 0;
     }
 
-    .form-group { margin-bottom: 1.25rem; }
-
-    .form-group label {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-lt);
-      margin-bottom: 0.4rem;
+    .form-group{ margin-bottom:1rem; }
+    .form-group label{
+      display:block;
+      font-size:0.78rem;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      color:var(--text-2);
+      margin-bottom:0.45rem;
     }
 
-    .form-group input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      background: var(--cream);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
+    .form-group input, .form-group select{
+      width:100%;
+      border:1px solid var(--line);
+      background:#131416;
+      color:var(--text);
+      border-radius:12px;
+      padding:0.88rem 0.95rem;
+      font-size:0.96rem;
+      outline:none;
+      transition:.2s;
     }
 
-    .form-group input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(200,169,110,0.15);
-      background: var(--white);
+    .form-group input:focus, .form-group select:focus{
+      border-color:rgba(212,176,119,0.6);
+      box-shadow:0 0 0 4px rgba(212,176,119,0.12);
     }
 
-    .btn-primary {
-      width: 100%;
-      padding: 0.85rem;
-      background: var(--brown);
-      color: var(--white);
-      border: none;
-      border-radius: 3px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      margin-top: 0.5rem;
+    .btn-primary, .btn-secondary, .btn-ghost, .btn-danger{
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      font-family:'Inter', sans-serif;
+      font-weight:600;
+      transition:.2s;
     }
 
-    .btn-primary:hover  { background: var(--brown-lt); }
-    .btn-primary:active { transform: scale(0.99); }
-    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    .msg {
-      margin-top: 1rem;
-      padding: 0.7rem 1rem;
-      border-radius: 3px;
-      font-size: 0.85rem;
-      text-align: center;
-      display: none;
-    }
-    .msg.error   { background: #fdf0ef; color: var(--error);   border: 1px solid #f5c6c2; display: block; }
-    .msg.success { background: #edf7f3; color: var(--success); border: 1px solid #b8dece; display: block; }
-
-    /* ── SET PASSWORD ── */
-    #view-setpass {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
+    .btn-primary{
+      width:100%;
+      background:linear-gradient(180deg, var(--accent-2), var(--accent));
+      color:#1b1711;
+      padding:0.95rem 1rem;
+      margin-top:0.4rem;
     }
 
-    /* ── PEDIDOS ── */
-    #view-pedidos { flex-direction: column; }
+    .btn-primary:hover{ transform:translateY(-1px); }
 
-    .top-bar {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+    .btn-secondary{
+      background:#2f3338;
+      color:var(--white);
+      padding:0.78rem 1rem;
     }
 
-    .top-bar-brand { display: flex; align-items: center; gap: 0.75rem; }
-
-    .top-bar-brand img {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid var(--gold);
+    .btn-ghost{
+      background:transparent;
+      color:var(--text-2);
+      border:1px solid var(--line);
+      padding:0.78rem 1rem;
     }
 
-    .top-bar-brand span {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      font-weight: 400;
-      color: var(--brown);
+    .btn-danger{
+      background:#462425;
+      color:#ffd7d7;
+      padding:0.78rem 1rem;
+      border:1px solid #6f383b;
     }
 
-    .top-bar-right { display: flex; align-items: center; gap: 1rem; }
-
-    #user-label { font-size: 0.8rem; color: var(--text-lt); }
-
-    .btn-logout {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      padding: 0.4rem 0.9rem;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-lt);
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
+    .msg{
+      margin-top:1rem;
+      padding:0.8rem 1rem;
+      border-radius:12px;
+      font-size:0.9rem;
+      display:none;
     }
-    .btn-logout:hover { border-color: var(--brown); color: var(--brown); }
+    .msg.error{ display:block; background:rgba(255,123,114,0.1); color:var(--error); border:1px solid rgba(255,123,114,0.25); }
+    .msg.success{ display:block; background:rgba(87,192,139,0.12); color:var(--success); border:1px solid rgba(87,192,139,0.26); }
 
-    .pedidos-content {
-      padding: 2.5rem 2rem;
-      max-width: 900px;
-      margin: 0 auto;
-      width: 100%;
-    }
+    /* APP */
+    #view-pedidos{ flex-direction:column; }
 
-    .pedidos-header { margin-bottom: 2rem; }
-
-    .pedidos-header h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 400;
-      color: var(--brown);
+    .top-bar{
+      height:78px;
+      border-bottom:1px solid var(--line);
+      background:rgba(12,13,14,0.88);
+      backdrop-filter: blur(8px);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 1.4rem 0 1.2rem;
+      position:sticky;
+      top:0;
+      z-index:30;
     }
 
-    .pedidos-header p { font-size: 0.85rem; color: var(--text-lt); margin-top: 0.25rem; }
-
-    .loading-state {
-      text-align: center;
-      padding: 4rem 0;
-      color: var(--text-lt);
-      font-size: 0.9rem;
+    .top-brand{
+      display:flex;
+      align-items:center;
+      gap:0.95rem;
     }
 
-    .loading-state .spinner {
-      width: 32px;
-      height: 32px;
-      border: 2px solid var(--border);
-      border-top-color: var(--gold);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 1rem;
+    .top-brand img{
+      width:54px;
+      height:54px;
+      border-radius:50%;
+      object-fit:cover;
+      border:2px solid rgba(212,176,119,0.45);
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .empty-state { text-align: center; padding: 4rem 0; color: var(--text-lt); }
-
-    .empty-state svg {
-      width: 48px;
-      height: 48px;
-      stroke: var(--border);
-      margin-bottom: 1rem;
+    .top-brand .brand-text{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
     }
 
-    /* ── PEDIDO CARD ── */
-    .pedido-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      margin-bottom: 1.25rem;
-      overflow: hidden;
-      animation: fadeUp 0.4s ease both;
-      box-shadow: 0 1px 8px rgba(44,24,16,0.04);
+    .top-brand strong{
+      font-family:'Playfair Display', serif;
+      font-size:1.45rem;
+      font-weight:600;
     }
 
-    .pedido-card:nth-child(2) { animation-delay: 0.05s; }
-    .pedido-card:nth-child(3) { animation-delay: 0.10s; }
-    .pedido-card:nth-child(4) { animation-delay: 0.15s; }
-    .pedido-card:nth-child(5) { animation-delay: 0.20s; }
-
-    .pedido-card-header {
-      padding: 1rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--warm);
-      background: var(--cream);
-      cursor: pointer;
-      user-select: none;
+    .top-brand span{
+      color:var(--text-2);
+      font-size:0.8rem;
+      letter-spacing:0.1em;
+      text-transform:uppercase;
     }
 
-    .pedido-card-header:hover { background: var(--warm); }
-
-    .pedido-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--brown);
-      letter-spacing: 0.02em;
+    .top-right{
+      display:flex;
+      align-items:center;
+      gap:0.9rem;
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
 
-    .pedido-meta { display: flex; align-items: center; gap: 1.5rem; }
-
-    .pedido-fecha {
-      font-size: 0.8rem;
-      color: var(--text-lt);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
+    .user-pill{
+      color:var(--text-2);
+      font-size:0.84rem;
+      padding:0.55rem 0.75rem;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,0.02);
     }
 
-    .pedido-fecha svg { width: 14px; height: 14px; stroke: var(--gold); flex-shrink: 0; }
-
-    .pedido-badge {
-      background: var(--gold);
-      color: var(--white);
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.6rem;
-      border-radius: 20px;
+    .app-shell{
+      display:grid;
+      grid-template-columns:280px 1fr;
+      min-height:calc(100vh - 78px);
     }
 
-    .chevron {
-      width: 16px;
-      height: 16px;
-      stroke: var(--text-lt);
-      transition: transform 0.25s ease;
-      flex-shrink: 0;
+    .sidebar{
+      border-right:1px solid var(--line);
+      background:rgba(17,18,20,0.96);
+      padding:1.35rem;
+      position:sticky;
+      top:78px;
+      height:calc(100vh - 78px);
+      overflow:auto;
     }
 
-    .pedido-card.open .chevron { transform: rotate(180deg); }
-
-    .pedido-card-body { display: none; }
-    .pedido-card.open .pedido-card-body { display: block; }
-
-    .items-table { width: 100%; border-collapse: collapse; }
-
-    .items-table th {
-      padding: 0.6rem 1.5rem;
-      text-align: left;
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-lt);
-      background: var(--cream);
-      border-bottom: 1px solid var(--border);
+    .sidebar-card{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:1rem;
+      margin-bottom:1rem;
     }
 
-    .items-table td {
-      padding: 0.85rem 1.5rem;
-      font-size: 0.9rem;
-      border-bottom: 1px solid var(--warm);
-      color: var(--text);
+    .sidebar-card h3{
+      font-size:0.9rem;
+      color:var(--text);
+      margin-bottom:0.9rem;
+      letter-spacing:0.04em;
     }
 
-    .items-table tr:last-child td { border-bottom: none; }
-    .items-table tr:hover td { background: #faf7f3; }
-
-    .qty-cell { font-weight: 500; color: var(--brown); }
-
-    .unit-chip {
-      display: inline-block;
-      background: var(--warm);
-      color: var(--brown-lt);
-      font-size: 0.72rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 3px;
-      font-weight: 500;
-      letter-spacing: 0.04em;
+    .sidebar-actions{
+      display:flex;
+      flex-direction:column;
+      gap:0.7rem;
     }
 
-    @media (max-width: 600px) {
-      .login-card { padding: 2rem 1.5rem; }
-      .pedidos-content { padding: 1.5rem 1rem; }
-      .top-bar { padding: 0.75rem 1rem; }
-      .pedido-meta { gap: 0.75rem; }
-      .items-table th,
-      .items-table td { padding: 0.7rem 1rem; }
+    .main{
+      padding:1.5rem;
+    }
+
+    .page-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:1rem;
+      margin-bottom:1.2rem;
+    }
+
+    .page-head h2{
+      font-family:'Playfair Display', serif;
+      font-size:2rem;
+      font-weight:600;
+    }
+
+    .page-head p{
+      color:var(--text-2);
+      margin-top:0.35rem;
+    }
+
+    .groups{
+      display:flex;
+      flex-direction:column;
+      gap:1.2rem;
+    }
+
+    .status-group{
+      background:rgba(255,255,255,0.02);
+      border:1px solid var(--line);
+      border-radius:20px;
+      overflow:hidden;
+    }
+
+    .status-head{
+      padding:1rem 1.2rem;
+      border-bottom:1px solid var(--line);
+      background:rgba(255,255,255,0.02);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+    }
+
+    .status-head h3{
+      font-size:0.95rem;
+      letter-spacing:0.06em;
+      text-transform:uppercase;
+      color:var(--accent-2);
+    }
+
+    .status-count{
+      background:var(--chip);
+      border:1px solid var(--line);
+      padding:0.35rem 0.7rem;
+      border-radius:999px;
+      color:var(--text-2);
+      font-size:0.8rem;
+    }
+
+    .pedido-card{
+      margin:1rem;
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+      background:var(--panel);
+    }
+
+    .pedido-head{
+      padding:1rem 1.1rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+      cursor:pointer;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    }
+
+    .pedido-head-left{
+      display:flex;
+      flex-direction:column;
+      gap:0.35rem;
+    }
+
+    .pedido-num{
+      font-family:'Playfair Display', serif;
+      font-size:1.25rem;
+      font-weight:600;
+    }
+
+    .pedido-date{
+      color:var(--text-2);
+      font-size:0.88rem;
+    }
+
+    .pedido-head-right{
+      display:flex;
+      gap:0.6rem;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .chip{
+      padding:0.35rem 0.65rem;
+      border-radius:999px;
+      font-size:0.78rem;
+      border:1px solid var(--line);
+      background:var(--chip);
+      color:var(--text-2);
+    }
+
+    .pedido-body{
+      display:none;
+      border-top:1px solid var(--line);
+      padding:0.8rem 1rem 1rem;
+    }
+
+    .pedido-card.open .pedido-body{ display:block; }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+    }
+
+    th, td{
+      padding:0.82rem 0.75rem;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      text-align:left;
+    }
+
+    th{
+      color:var(--text-2);
+      font-size:0.76rem;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+    }
+
+    td{
+      font-size:0.94rem;
+      color:var(--text);
+    }
+
+    .qty{
+      font-weight:700;
+      color:var(--accent-2);
+    }
+
+    .pedido-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:0.7rem;
+      margin-top:0.9rem;
+    }
+
+    .loading, .empty{
+      padding:2rem;
+      text-align:center;
+      color:var(--text-2);
+      border:1px dashed var(--line);
+      border-radius:18px;
+      background:rgba(255,255,255,0.02);
+    }
+
+    /* MODAL */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.6);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:60;
+      padding:1rem;
+    }
+
+    .modal.active{ display:flex; }
+
+    .modal-card{
+      width:100%;
+      max-width:860px;
+      max-height:90vh;
+      overflow:auto;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:0 30px 80px rgba(0,0,0,0.4);
+    }
+
+    .modal-head{
+      padding:1.2rem 1.2rem 0.9rem;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:1rem;
+    }
+
+    .modal-head h3{
+      font-family:'Playfair Display', serif;
+      font-size:1.6rem;
+    }
+
+    .modal-body{ padding:1.2rem; }
+
+    .line-item{
+      display:grid;
+      grid-template-columns:1.7fr 0.7fr 0.8fr auto;
+      gap:0.8rem;
+      align-items:end;
+      margin-bottom:0.9rem;
+      padding:0.9rem;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:var(--panel-2);
+    }
+
+    .modal-actions{
+      display:flex;
+      justify-content:space-between;
+      gap:0.8rem;
+      padding:1rem 1.2rem 1.2rem;
+      border-top:1px solid var(--line);
+      flex-wrap:wrap;
+    }
+
+    @media (max-width: 980px){
+      .app-shell{ grid-template-columns:1fr; }
+      .sidebar{
+        position:static;
+        height:auto;
+        border-right:none;
+        border-bottom:1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 760px){
+      .top-bar{
+        height:auto;
+        padding:1rem;
+        align-items:flex-start;
+        gap:1rem;
+        flex-direction:column;
+      }
+      .top-right{ width:100%; justify-content:flex-start; }
+      .main{ padding:1rem; }
+      .page-head{ flex-direction:column; }
+      .line-item{
+        grid-template-columns:1fr;
+      }
+      .pedido-head{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .pedido-head-right{
+        justify-content:flex-start;
+      }
     }
   </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="view-login" class="view active">
-  <div class="login-card">
+  <div class="auth-card">
     <div class="logo-wrap">
       <img src="https://raw.githubusercontent.com/OMAXING/AbueloJulio/main/Abuelo%20Julio.jpeg" alt="Abuelo Julio" onerror="this.style.display='none'" />
       <h1>Abuelo Julio</h1>
@@ -419,17 +573,16 @@
   </div>
 </div>
 
-<!-- SET PASSWORD -->
 <div id="view-setpass" class="view">
-  <div class="login-card">
+  <div class="auth-card">
     <div class="logo-wrap">
       <img src="https://raw.githubusercontent.com/OMAXING/AbueloJulio/main/Abuelo%20Julio.jpeg" alt="Abuelo Julio" onerror="this.style.display='none'" />
       <h1>Abuelo Julio</h1>
       <p>Crear contraseña</p>
     </div>
     <div class="divider"></div>
-    <p style="font-size:0.88rem; color:var(--text-lt); margin-bottom:1.5rem; text-align:center; line-height:1.5;">
-      Es tu primer ingreso. Por favor creá una contraseña para tu cuenta.
+    <p style="color:var(--text-2); margin-bottom:1.2rem; text-align:center;">
+      Es tu primer ingreso. Creá una contraseña para tu cuenta.
     </p>
     <div class="form-group">
       <label>Nueva contraseña</label>
@@ -444,239 +597,117 @@
   </div>
 </div>
 
-<!-- PEDIDOS -->
 <div id="view-pedidos" class="view">
   <header class="top-bar">
-    <div class="top-bar-brand">
+    <div class="top-brand">
       <img src="https://raw.githubusercontent.com/OMAXING/AbueloJulio/main/Abuelo%20Julio.jpeg" alt="Abuelo Julio" onerror="this.style.display='none'" />
-      <span>Abuelo Julio</span>
+      <div class="brand-text">
+        <strong>Abuelo Julio</strong>
+        <span>Portal de Pedidos</span>
+      </div>
     </div>
-    <div class="top-bar-right">
-      <span id="user-label"></span>
-      <button class="btn-logout" id="btn-logout">Salir</button>
+    <div class="top-right">
+      <div class="user-pill" id="user-label"></div>
+      <button class="btn-secondary" id="btn-new-pedido">+ Crear pedido</button>
+      <button class="btn-ghost" id="btn-logout">Salir</button>
     </div>
   </header>
 
-  <div class="pedidos-content">
-    <div class="pedidos-header">
-      <h2>Mis Pedidos</h2>
-      <p id="pedidos-subtitle">Cargando tus pedidos...</p>
-    </div>
-    <div id="pedidos-list">
-      <div class="loading-state">
-        <div class="spinner"></div>
-        Cargando pedidos...
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h3>Filtros</h3>
+
+        <div class="form-group">
+          <label>Fecha desde</label>
+          <input type="date" id="filter-fecha-desde" />
+        </div>
+
+        <div class="form-group">
+          <label>Fecha hasta</label>
+          <input type="date" id="filter-fecha-hasta" />
+        </div>
+
+        <div class="form-group">
+          <label>Corte</label>
+          <select id="filter-corte">
+            <option value="">Todos los cortes</option>
+          </select>
+        </div>
+
+        <div class="sidebar-actions">
+          <button class="btn-primary" id="btn-apply-filters">Aplicar filtros</button>
+          <button class="btn-ghost" id="btn-clear-filters">Limpiar filtros</button>
+        </div>
       </div>
+    </aside>
+
+    <main class="main">
+      <div class="page-head">
+        <div>
+          <h2>Mis Pedidos</h2>
+          <p id="pedidos-subtitle">Cargando pedidos...</p>
+        </div>
+      </div>
+
+      <div id="pedidos-list">
+        <div class="loading">Cargando pedidos...</div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal" id="pedido-modal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="pedido-modal-title">Nuevo Pedido</h3>
+      <button class="btn-ghost" id="btn-close-modal">Cerrar</button>
+    </div>
+    <div class="modal-body">
+      <div id="pedido-modal-msg" class="msg"></div>
+      <div id="line-items-wrap"></div>
+      <button class="btn-secondary" id="btn-add-line">+ Agregar corte</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-danger" id="btn-cancel-modal">Cancelar</button>
+      <button class="btn-primary" style="width:auto; margin-top:0;" id="btn-save-pedido">Guardar pedido</button>
     </div>
   </div>
 </div>
 
 <script>
-  // ── CONFIG — reemplazá con la URL de tu nuevo deployment ──
-  const API_URL = "https://script.google.com/macros/s/AKfycbyPk-qyMsNeFhQB7bp6ssVejWW8YiNeVfRv4ZOOs2vLZr_x3vMb3cZzwVkaLQj4Q4WG/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbw1XjyMBvILAlV9WUKrE_oPyvPgDJE0Yr0vMmG10OElhsWE3nnf1fDycq6iBJba-cxi/exec";
 
-  // ── STATE ─────────────────────────────────────────────────
-  let currentMail      = "";
+  let currentMail = "";
   let currentClienteId = "";
+  let allowedProductos = [];
+  let pedidosCache = [];
+  let editingPedidoId = "";
 
-  // ── UTILS ─────────────────────────────────────────────────
-  function showView(id) {
+  function showView(id){
     document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
     document.getElementById(id).classList.add("active");
   }
 
-  function showMsg(elId, text, type) {
+  function showMsg(elId, text, type){
     const el = document.getElementById(elId);
     el.textContent = text;
     el.className = "msg " + type;
   }
 
-  function clearMsg(elId) {
+  function clearMsg(elId){
     const el = document.getElementById(elId);
-    el.className = "msg";
     el.textContent = "";
+    el.className = "msg";
   }
 
-  // Llamada GET para evitar CORS
-  async function api(payload) {
+  async function api(payload){
     const params = new URLSearchParams({ data: JSON.stringify(payload) });
-    const res = await fetch(API_URL + "?" + params.toString(), {
-      method: "GET",
-      redirect: "follow"
-    });
+    const res = await fetch(API_URL + "?" + params.toString(), { method:"GET", redirect:"follow" });
     return res.json();
   }
 
-  // ── LOGIN ─────────────────────────────────────────────────
-  document.getElementById("btn-login").addEventListener("click", async () => {
-    clearMsg("login-msg");
-    const mail = document.getElementById("login-mail").value.trim();
-    const pass = document.getElementById("login-pass").value.trim();
-
-    if (!mail) { showMsg("login-msg", "Ingresá tu correo electrónico.", "error"); return; }
-
-    const btn = document.getElementById("btn-login");
-    btn.disabled = true;
-    btn.textContent = "Verificando...";
-
-    try {
-      const data = await api({ action: "login", mail, pass });
-
-      if (!data.success) {
-        showMsg("login-msg", data.error || "Error al ingresar.", "error");
-        return;
-      }
-
-      currentMail      = data.mail;
-      currentClienteId = data.clienteId;
-
-      if (data.status === "no_password") {
-        showView("view-setpass");
-      } else if (data.status === "ok") {
-        enterPedidos();
-      }
-    } catch (e) {
-      console.error(e);
-      showMsg("login-msg", "Error de conexión. Intentá de nuevo.", "error");
-    } finally {
-      btn.disabled = false;
-      btn.textContent = "Ingresar";
-    }
-  });
-
-  ["login-mail", "login-pass"].forEach(id => {
-    document.getElementById(id).addEventListener("keydown", e => {
-      if (e.key === "Enter") document.getElementById("btn-login").click();
-    });
-  });
-
-  // ── SET PASSWORD ──────────────────────────────────────────
-  document.getElementById("btn-setpass").addEventListener("click", async () => {
-    clearMsg("setpass-msg");
-    const newPass     = document.getElementById("setpass-new").value.trim();
-    const confirmPass = document.getElementById("setpass-confirm").value.trim();
-
-    if (!newPass || newPass.length < 6) {
-      showMsg("setpass-msg", "La contraseña debe tener al menos 6 caracteres.", "error"); return;
-    }
-    if (newPass !== confirmPass) {
-      showMsg("setpass-msg", "Las contraseñas no coinciden.", "error"); return;
-    }
-
-    const btn = document.getElementById("btn-setpass");
-    btn.disabled = true;
-    btn.textContent = "Guardando...";
-
-    try {
-      const data = await api({ action: "setPassword", mail: currentMail, pass: newPass });
-      if (data.success) {
-        showMsg("setpass-msg", "¡Contraseña creada! Ingresando...", "success");
-        setTimeout(() => enterPedidos(), 1000);
-      } else {
-        showMsg("setpass-msg", data.error || "Error al guardar.", "error");
-      }
-    } catch (e) {
-      console.error(e);
-      showMsg("setpass-msg", "Error de conexión.", "error");
-    } finally {
-      btn.disabled = false;
-      btn.textContent = "Guardar contraseña";
-    }
-  });
-
-  // ── PEDIDOS ───────────────────────────────────────────────
-  function enterPedidos() {
-    document.getElementById("user-label").textContent = currentMail;
-    showView("view-pedidos");
-    loadPedidos();
-  }
-
-  async function loadPedidos() {
-    const listEl = document.getElementById("pedidos-list");
-    listEl.innerHTML = `<div class="loading-state"><div class="spinner"></div>Cargando pedidos...</div>`;
-    document.getElementById("pedidos-subtitle").textContent = "Cargando tus pedidos...";
-
-    try {
-      const data = await api({ action: "getPedidos", clienteId: currentClienteId });
-
-      if (!data.success) {
-        listEl.innerHTML = `<div class="empty-state"><p>Error al cargar pedidos.</p></div>`;
-        return;
-      }
-
-      const pedidos = data.pedidos || [];
-      document.getElementById("pedidos-subtitle").textContent =
-        pedidos.length === 0 ? "No tenés pedidos registrados." :
-        pedidos.length === 1 ? "1 pedido registrado" :
-        `${pedidos.length} pedidos registrados`;
-
-      if (pedidos.length === 0) {
-        listEl.innerHTML = `
-          <div class="empty-state">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
-              <rect x="9" y="3" width="6" height="4" rx="1"/>
-            </svg>
-            <p>No tenés pedidos registrados todavía.</p>
-          </div>`;
-        return;
-      }
-
-      listEl.innerHTML = pedidos.map((p, idx) => `
-        <div class="pedido-card" id="card-${idx}">
-          <div class="pedido-card-header" onclick="toggleCard(${idx})">
-            <div class="pedido-num">Pedido #${escHtml(p.pedidoNumero)}</div>
-            <div class="pedido-meta">
-              ${p.fecha ? `
-              <span class="pedido-fecha">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2"/>
-                  <path d="M16 2v4M8 2v4M3 10h18"/>
-                </svg>
-                Entrega: ${escHtml(p.fecha)}
-              </span>` : ""}
-              <span class="pedido-badge">${p.items.length} ${p.items.length === 1 ? "item" : "items"}</span>
-            </div>
-            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 9l6 6 6-6"/>
-            </svg>
-          </div>
-          <div class="pedido-card-body">
-            <table class="items-table">
-              <thead>
-                <tr>
-                  <th>Producto</th>
-                  <th>Cantidad</th>
-                  <th>Unidad</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${p.items.map(item => `
-                  <tr>
-                    <td>${escHtml(item.producto)}</td>
-                    <td class="qty-cell">${escHtml(String(item.cantidad))}</td>
-                    <td><span class="unit-chip">${escHtml(item.unidad)}</span></td>
-                  </tr>`).join("")}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `).join("");
-
-      if (pedidos.length > 0) toggleCard(0);
-
-    } catch (e) {
-      console.error(e);
-      listEl.innerHTML = `<div class="empty-state"><p>Error de conexión. Intentá de nuevo.</p></div>`;
-      document.getElementById("pedidos-subtitle").textContent = "";
-    }
-  }
-
-  function toggleCard(idx) {
-    document.getElementById("card-" + idx).classList.toggle("open");
-  }
-
-  function escHtml(str) {
+  function escHtml(str){
     return String(str || "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
@@ -684,13 +715,418 @@
       .replace(/"/g, "&quot;");
   }
 
-  // ── LOGOUT ────────────────────────────────────────────────
+  function showModal(){
+    document.getElementById("pedido-modal").classList.add("active");
+  }
+
+  function hideModal(){
+    document.getElementById("pedido-modal").classList.remove("active");
+    clearMsg("pedido-modal-msg");
+    document.getElementById("line-items-wrap").innerHTML = "";
+    editingPedidoId = "";
+  }
+
+  function getProductoOptionsHtml(selectedId = ""){
+    return `
+      <option value="">Seleccionar corte</option>
+      ${allowedProductos.map(p => `
+        <option value="${escHtml(p.productoId)}" ${String(selectedId) === String(p.productoId) ? "selected" : ""}>
+          ${escHtml(p.productoNombre)}
+        </option>
+      `).join("")}
+    `;
+  }
+
+  function addLineItemRow(item = {}){
+    const wrap = document.getElementById("line-items-wrap");
+    const div = document.createElement("div");
+    div.className = "line-item";
+    div.innerHTML = `
+      <div class="form-group" style="margin-bottom:0;">
+        <label>Corte</label>
+        <select class="item-producto">
+          ${getProductoOptionsHtml(item.productoId || "")}
+        </select>
+      </div>
+
+      <div class="form-group" style="margin-bottom:0;">
+        <label>Cantidad</label>
+        <input type="number" class="item-cantidad" min="0.01" step="0.01" value="${item.cantidad || ""}" placeholder="0" />
+      </div>
+
+      <div class="form-group" style="margin-bottom:0;">
+        <label>Unidad</label>
+        <select class="item-unidad">
+          <option value="Kg" ${item.unidad === "Kg" ? "selected" : ""}>Kg</option>
+          <option value="Unidades" ${item.unidad === "Unidades" ? "selected" : ""}>Unidades</option>
+          <option value="Cajas" ${item.unidad === "Cajas" ? "selected" : ""}>Cajas</option>
+        </select>
+      </div>
+
+      <div>
+        <button type="button" class="btn-danger btn-remove-line">Eliminar</button>
+      </div>
+    `;
+    wrap.appendChild(div);
+
+    div.querySelector(".btn-remove-line").addEventListener("click", () => {
+      div.remove();
+    });
+  }
+
+  function collectLineItems(){
+    const rows = [...document.querySelectorAll(".line-item")];
+    return rows.map(row => ({
+      productoId: row.querySelector(".item-producto").value,
+      cantidad: row.querySelector(".item-cantidad").value,
+      unidad: row.querySelector(".item-unidad").value
+    }));
+  }
+
+  async function loadAllowedProductos(){
+    const data = await api({
+      action: "getAllowedProductos",
+      clienteId: currentClienteId
+    });
+
+    if (!data.success) {
+      allowedProductos = [];
+      return;
+    }
+
+    allowedProductos = data.productos || [];
+
+    const select = document.getElementById("filter-corte");
+    select.innerHTML = `<option value="">Todos los cortes</option>` +
+      allowedProductos.map(p => `<option value="${escHtml(p.productoId)}">${escHtml(p.productoNombre)}</option>`).join("");
+  }
+
+  async function loadPedidos(){
+    const listEl = document.getElementById("pedidos-list");
+    listEl.innerHTML = `<div class="loading">Cargando pedidos...</div>`;
+    document.getElementById("pedidos-subtitle").textContent = "Cargando pedidos...";
+
+    const fechaDesde = document.getElementById("filter-fecha-desde").value;
+    const fechaHasta = document.getElementById("filter-fecha-hasta").value;
+    const corteId = document.getElementById("filter-corte").value;
+
+    try{
+      const data = await api({
+        action: "getPedidos",
+        clienteId: currentClienteId,
+        fechaDesde,
+        fechaHasta,
+        corteId
+      });
+
+      if (!data.success){
+        listEl.innerHTML = `<div class="empty">Error al cargar pedidos.</div>`;
+        return;
+      }
+
+      const grupos = data.grupos || [];
+      const totalPedidos = grupos.reduce((acc, g) => acc + g.pedidos.length, 0);
+
+      document.getElementById("pedidos-subtitle").textContent =
+        totalPedidos === 0 ? "No hay pedidos para los filtros seleccionados." :
+        totalPedidos === 1 ? "1 pedido encontrado" :
+        `${totalPedidos} pedidos encontrados`;
+
+      if (!grupos.length){
+        listEl.innerHTML = `<div class="empty">No hay pedidos para los filtros seleccionados.</div>`;
+        return;
+      }
+
+      pedidosCache = grupos.flatMap(g => g.pedidos);
+
+      listEl.innerHTML = `
+        <div class="groups">
+          ${grupos.map((grupo, gi) => `
+            <section class="status-group">
+              <div class="status-head">
+                <h3>${escHtml(grupo.status)}</h3>
+                <span class="status-count">${grupo.pedidos.length} ${grupo.pedidos.length === 1 ? "pedido" : "pedidos"}</span>
+              </div>
+
+              ${grupo.pedidos.map((p, pi) => `
+                <article class="pedido-card" id="pedido-${gi}-${pi}">
+                  <div class="pedido-head" onclick="togglePedido('${gi}-${pi}')">
+                    <div class="pedido-head-left">
+                      <div class="pedido-num">Pedido #${escHtml(p.pedidoNumero)}</div>
+                      <div class="pedido-date">
+                        ${p.fechaEntrega ? `Entrega: ${escHtml(p.fechaEntrega)}` : "Sin fecha de entrega"}
+                      </div>
+                    </div>
+
+                    <div class="pedido-head-right">
+                      <span class="chip">${p.items.length} ${p.items.length === 1 ? "item" : "items"}</span>
+                      ${p.editable ? `<span class="chip">Editable</span>` : ``}
+                    </div>
+                  </div>
+
+                  <div class="pedido-body">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Producto</th>
+                          <th>Cantidad</th>
+                          <th>Unidad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        ${p.items.map(item => `
+                          <tr>
+                            <td>${escHtml(item.producto)}</td>
+                            <td class="qty">${escHtml(String(item.cantidad))}</td>
+                            <td>${escHtml(item.unidad)}</td>
+                          </tr>
+                        `).join("")}
+                      </tbody>
+                    </table>
+
+                    ${p.editable ? `
+                      <div class="pedido-actions">
+                        <button class="btn-secondary" onclick="event.stopPropagation(); openEditPedido('${escHtml(p.pedidoId)}')">Editar pedido</button>
+                      </div>
+                    ` : ``}
+                  </div>
+                </article>
+              `).join("")}
+            </section>
+          `).join("")}
+        </div>
+      `;
+
+      const first = document.querySelector(".pedido-card");
+      if (first) first.classList.add("open");
+
+    } catch(err){
+      console.error(err);
+      listEl.innerHTML = `<div class="empty">Error de conexión. Intentá de nuevo.</div>`;
+    }
+  }
+
+  function togglePedido(id){
+    document.getElementById("pedido-" + id).classList.toggle("open");
+  }
+
+  function openNewPedido(){
+    editingPedidoId = "";
+    document.getElementById("pedido-modal-title").textContent = "Nuevo Pedido";
+    document.getElementById("line-items-wrap").innerHTML = "";
+    addLineItemRow();
+    showModal();
+  }
+
+  function openEditPedido(pedidoId){
+    const pedido = pedidosCache.find(p => String(p.pedidoId) === String(pedidoId));
+    if (!pedido) return;
+
+    editingPedidoId = pedidoId;
+    document.getElementById("pedido-modal-title").textContent = "Editar Pedido #" + pedido.pedidoNumero;
+    document.getElementById("line-items-wrap").innerHTML = "";
+
+    if (pedido.items && pedido.items.length){
+      pedido.items.forEach(item => {
+        addLineItemRow({
+          productoId: item.productoId,
+          cantidad: item.cantidad,
+          unidad: item.unidad
+        });
+      });
+    } else {
+      addLineItemRow();
+    }
+
+    showModal();
+  }
+
+  async function savePedido(){
+    clearMsg("pedido-modal-msg");
+
+    const items = collectLineItems();
+
+    if (!items.length){
+      showMsg("pedido-modal-msg", "Agregá al menos un corte.", "error");
+      return;
+    }
+
+    for (const item of items){
+      if (!item.productoId){
+        showMsg("pedido-modal-msg", "Todos los items deben tener un corte seleccionado.", "error");
+        return;
+      }
+      if (!item.cantidad || Number(item.cantidad) <= 0){
+        showMsg("pedido-modal-msg", "Todas las cantidades deben ser mayores a 0.", "error");
+        return;
+      }
+    }
+
+    const btn = document.getElementById("btn-save-pedido");
+    btn.disabled = true;
+    btn.textContent = "Guardando...";
+
+    try{
+      const payload = editingPedidoId
+        ? {
+            action: "updatePedido",
+            pedidoId: editingPedidoId,
+            clienteId: currentClienteId,
+            mail: currentMail,
+            items
+          }
+        : {
+            action: "createPedido",
+            clienteId: currentClienteId,
+            mail: currentMail,
+            items
+          };
+
+      const data = await api(payload);
+
+      if (!data.success){
+        showMsg("pedido-modal-msg", data.error || "No se pudo guardar el pedido.", "error");
+        return;
+      }
+
+      hideModal();
+      await loadPedidos();
+
+    } catch(err){
+      console.error(err);
+      showMsg("pedido-modal-msg", "Error de conexión al guardar.", "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Guardar pedido";
+    }
+  }
+
+  function enterPedidos(){
+    document.getElementById("user-label").textContent = currentMail;
+    showView("view-pedidos");
+    loadAllowedProductos().then(loadPedidos);
+  }
+
+  document.getElementById("btn-login").addEventListener("click", async () => {
+    clearMsg("login-msg");
+
+    const mail = document.getElementById("login-mail").value.trim();
+    const pass = document.getElementById("login-pass").value.trim();
+
+    if (!mail){
+      showMsg("login-msg", "Ingresá tu correo electrónico.", "error");
+      return;
+    }
+
+    const btn = document.getElementById("btn-login");
+    btn.disabled = true;
+    btn.textContent = "Verificando...";
+
+    try{
+      const data = await api({ action:"login", mail, pass });
+
+      if (!data.success){
+        showMsg("login-msg", data.error || "Error al ingresar.", "error");
+        return;
+      }
+
+      currentMail = data.mail;
+      currentClienteId = data.clienteId;
+
+      if (data.status === "no_password"){
+        showView("view-setpass");
+      } else {
+        enterPedidos();
+      }
+
+    } catch(err){
+      console.error(err);
+      showMsg("login-msg", "Error de conexión. Intentá de nuevo.", "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Ingresar";
+    }
+  });
+
+  ["login-mail","login-pass"].forEach(id => {
+    document.getElementById(id).addEventListener("keydown", e => {
+      if (e.key === "Enter") document.getElementById("btn-login").click();
+    });
+  });
+
+  document.getElementById("btn-setpass").addEventListener("click", async () => {
+    clearMsg("setpass-msg");
+
+    const newPass = document.getElementById("setpass-new").value.trim();
+    const confirmPass = document.getElementById("setpass-confirm").value.trim();
+
+    if (!newPass || newPass.length < 6){
+      showMsg("setpass-msg", "La contraseña debe tener al menos 6 caracteres.", "error");
+      return;
+    }
+
+    if (newPass !== confirmPass){
+      showMsg("setpass-msg", "Las contraseñas no coinciden.", "error");
+      return;
+    }
+
+    const btn = document.getElementById("btn-setpass");
+    btn.disabled = true;
+    btn.textContent = "Guardando...";
+
+    try{
+      const data = await api({
+        action: "setPassword",
+        mail: currentMail,
+        pass: newPass
+      });
+
+      if (!data.success){
+        showMsg("setpass-msg", data.error || "Error al guardar.", "error");
+        return;
+      }
+
+      showMsg("setpass-msg", "Contraseña creada correctamente.", "success");
+      setTimeout(() => enterPedidos(), 700);
+
+    } catch(err){
+      console.error(err);
+      showMsg("setpass-msg", "Error de conexión.", "error");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Guardar contraseña";
+    }
+  });
+
+  document.getElementById("btn-apply-filters").addEventListener("click", loadPedidos);
+
+  document.getElementById("btn-clear-filters").addEventListener("click", () => {
+    document.getElementById("filter-fecha-desde").value = "";
+    document.getElementById("filter-fecha-hasta").value = "";
+    document.getElementById("filter-corte").value = "";
+    loadPedidos();
+  });
+
+  document.getElementById("btn-new-pedido").addEventListener("click", openNewPedido);
+  document.getElementById("btn-close-modal").addEventListener("click", hideModal);
+  document.getElementById("btn-cancel-modal").addEventListener("click", hideModal);
+  document.getElementById("btn-add-line").addEventListener("click", () => addLineItemRow());
+  document.getElementById("btn-save-pedido").addEventListener("click", savePedido);
+
   document.getElementById("btn-logout").addEventListener("click", () => {
-    currentMail      = "";
+    currentMail = "";
     currentClienteId = "";
+    allowedProductos = [];
+    pedidosCache = [];
+    editingPedidoId = "";
+
     document.getElementById("login-mail").value = "";
     document.getElementById("login-pass").value = "";
     document.getElementById("pedidos-list").innerHTML = "";
+    document.getElementById("filter-fecha-desde").value = "";
+    document.getElementById("filter-fecha-hasta").value = "";
+    document.getElementById("filter-corte").innerHTML = `<option value="">Todos los cortes</option>`;
+    hideModal();
     clearMsg("login-msg");
     showView("view-login");
   });
