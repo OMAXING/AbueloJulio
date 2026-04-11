@@ -46,7 +46,6 @@
     .view { display:none; min-height:100vh; }
     .view.active { display:flex; }
 
-    /* ---- AUTH ---- */
     #view-login, #view-setpass, #view-forgot, #view-reset {
       align-items:center;
       justify-content:center;
@@ -123,6 +122,11 @@
       border-color:rgba(216,176,123,.6);
       box-shadow:0 0 0 4px rgba(216,176,123,.12);
     }
+    .input-readonly{
+      background:#191d22 !important;
+      color:var(--text2) !important;
+      cursor:not-allowed;
+    }
 
     .btn-primary, .btn-secondary, .btn-ghost, .btn-danger{
       border:none; border-radius:12px; cursor:pointer;
@@ -165,7 +169,6 @@
       border:1px solid rgba(90,200,141,.24);
     }
 
-    /* ---- PEDIDOS VIEW ---- */
     #view-pedidos{ flex-direction:column; }
 
     .top-bar{
@@ -198,7 +201,6 @@
       border-radius:999px; background:rgba(255,255,255,.02);
     }
 
-    /* Botón soporte */
     .btn-support{
       width:42px; height:42px;
       border-radius:50%; border:1px solid var(--line);
@@ -210,7 +212,6 @@
     .btn-support:hover{ background:rgba(216,176,123,.12); border-color:rgba(216,176,123,.4); }
     .btn-support svg{ width:20px; height:20px; }
 
-    /* Popover de contacto */
     .support-popover{
       position:absolute;
       top:calc(100% + 10px);
@@ -249,7 +250,6 @@
     .support-row .s-value{ color:var(--text); font-weight:600; }
     .support-popover-wrap{ position:relative; }
 
-    /* ---- APP SHELL ---- */
     .app-shell{
       display:grid;
       grid-template-columns:300px 1fr;
@@ -270,7 +270,6 @@
     .sidebar-card h3{ font-size:.92rem; color:var(--text); margin-bottom:.9rem; letter-spacing:.04em; }
     .sidebar-actions{ display:flex; flex-direction:column; gap:.7rem; }
 
-    /* Summary chips clickeables */
     .summary-grid{
       display:grid;
       grid-template-columns:repeat(4, minmax(140px, 1fr));
@@ -295,7 +294,6 @@
     }
     .summary-card .value{ font-size:1.6rem; font-weight:800; margin-top:.25rem; }
 
-    /* ---- MAIN ---- */
     .main{ padding:1.5rem; }
     .page-head{ display:flex; flex-direction:column; gap:1rem; margin-bottom:1.2rem; }
     .page-head-top{
@@ -327,8 +325,20 @@
       color:var(--text2); font-size:.8rem;
     }
 
+    .period-group{
+      padding:1rem 1rem 0;
+    }
+    .period-label{
+      margin:0 0 .8rem;
+      color:var(--accent2);
+      font-size:.82rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
     .pedido-card{
-      margin:1rem; border:1px solid var(--line);
+      margin:0 0 1rem;
+      border:1px solid var(--line);
       border-radius:18px; overflow:hidden; background:var(--panel);
     }
     .pedido-card.preliminar{
@@ -365,7 +375,31 @@
     }
     .pedido-card.open .pedido-body{ display:block; }
 
-    /* Disclaimer */
+    .pedido-meta{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(220px, 1fr));
+      gap:.75rem;
+      margin-bottom:1rem;
+    }
+    .meta-box{
+      padding:.8rem .9rem;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px;
+      background:rgba(255,255,255,.02);
+    }
+    .meta-box .meta-label{
+      color:var(--text2);
+      font-size:.74rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:.25rem;
+    }
+    .meta-box .meta-value{
+      color:var(--text);
+      font-size:.92rem;
+      font-weight:600;
+    }
+
     .disclaimer{
       margin-top:.8rem;
       padding:.6rem .85rem;
@@ -381,8 +415,15 @@
     table{ width:100%; border-collapse:collapse; }
     th, td{ padding:.82rem .75rem; border-bottom:1px solid rgba(255,255,255,.06); text-align:left; }
     th{ color:var(--text2); font-size:.76rem; text-transform:uppercase; letter-spacing:.12em; }
-    td{ font-size:.94rem; color:var(--text); }
+    td{ font-size:.94rem; color:var(--text); vertical-align:top; }
     .qty{ font-weight:800; color:var(--accent2); }
+    .stock-adjust{
+      display:block;
+      margin-top:.3rem;
+      color:#ffcf9c;
+      font-size:.78rem;
+      line-height:1.45;
+    }
 
     .pedido-actions{
       display:flex; justify-content:flex-end; gap:.7rem;
@@ -395,7 +436,6 @@
       background:rgba(255,255,255,.02);
     }
 
-    /* ---- MODAL ---- */
     .modal{
       position:fixed; inset:0;
       background:rgba(0,0,0,.62);
@@ -423,7 +463,6 @@
       gap:.9rem; margin-bottom:1rem;
     }
 
-    /* Fecha de entrega estimada */
     .estimated-delivery{
       margin-top:.6rem; margin-bottom:.4rem;
       padding:.65rem .9rem;
@@ -451,7 +490,6 @@
       border-top:1px solid var(--line); flex-wrap:wrap;
     }
 
-    /* ---- RESPONSIVE ---- */
     @media (max-width: 1040px){
       .app-shell{ grid-template-columns:1fr; }
       .sidebar{
@@ -469,7 +507,7 @@
       .top-right{ width:100%; justify-content:flex-start; }
       .main{ padding:1rem; }
       .page-head-top{ flex-direction:column; }
-      .line-item, .modal-grid{ grid-template-columns:1fr; }
+      .line-item, .modal-grid, .pedido-meta{ grid-template-columns:1fr; }
       .pedido-head{ flex-direction:column; align-items:flex-start; }
       .pedido-head-right{ justify-content:flex-start; }
       .summary-grid{ grid-template-columns:1fr; }
@@ -478,9 +516,6 @@
 </head>
 <body>
 
-<!-- ============================================================
-     LOGIN
-============================================================ -->
 <div id="view-login" class="view active">
   <div class="auth-card">
     <div class="logo-wrap">
@@ -505,9 +540,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     SET PASSWORD (primer ingreso)
-============================================================ -->
 <div id="view-setpass" class="view">
   <div class="auth-card">
     <div class="logo-wrap">
@@ -532,9 +564,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     FORGOT PASSWORD
-============================================================ -->
 <div id="view-forgot" class="view">
   <div class="auth-card">
     <div class="logo-wrap">
@@ -558,9 +587,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     RESET PASSWORD (llegó por link)
-============================================================ -->
 <div id="view-reset" class="view">
   <div class="auth-card">
     <div class="logo-wrap">
@@ -585,9 +611,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     PEDIDOS
-============================================================ -->
 <div id="view-pedidos" class="view">
   <header class="top-bar">
     <div class="top-brand">
@@ -600,11 +623,8 @@
     <div class="top-right">
       <div class="user-pill" id="user-label"></div>
       <button class="btn-secondary" id="btn-new-pedido">+ Crear pedido</button>
-
-      <!-- Botón soporte -->
       <div class="support-popover-wrap">
         <button class="btn-support" id="btn-support" title="Contacto">
-          <!-- Ícono headset + persona -->
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)">
             <path d="M3 11a9 9 0 1 1 18 0"/>
             <path d="M3 11v3a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H4.5"/>
@@ -642,7 +662,6 @@
           </div>
         </div>
       </div>
-
       <button class="btn-ghost" id="btn-logout">Salir</button>
     </div>
   </header>
@@ -665,12 +684,6 @@
             <option value="">Todos los cortes</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Estado</label>
-          <select id="filter-estado">
-            <option value="">Todos los estados</option>
-          </select>
-        </div>
         <div class="sidebar-actions">
           <button class="btn-ghost" id="btn-clear-filters">Limpiar filtros</button>
         </div>
@@ -687,7 +700,7 @@
         </div>
 
         <div class="summary-grid">
-          <div class="summary-card" id="sc-total" data-filter="">
+          <div class="summary-card active-filter" id="sc-total" data-filter="">
             <div class="label">Total</div>
             <div class="value" id="sum-total">0</div>
           </div>
@@ -713,9 +726,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     MODAL PEDIDO
-============================================================ -->
 <div class="modal" id="pedido-modal">
   <div class="modal-card">
     <div class="modal-head">
@@ -728,7 +738,7 @@
       <div class="modal-grid">
         <div class="form-group">
           <label>Fecha del pedido</label>
-          <input type="date" id="pedido-fecha" />
+          <input type="date" id="pedido-fecha" class="input-readonly" readonly disabled />
         </div>
         <div class="form-group">
           <label>Modo de entrega</label>
@@ -740,12 +750,10 @@
         </div>
       </div>
 
-      <!-- Entrega estimada -->
       <div class="estimated-delivery" id="estimated-delivery">
-        🗓 Entrega estimada: <strong id="estimated-delivery-date"></strong>
+        Entrega estimada: <strong id="estimated-delivery-date"></strong>
       </div>
 
-      <!-- Dirección (solo domicilio) -->
       <div class="form-group" id="direccion-wrap" style="display:none; margin-bottom:1rem;">
         <label>Dirección de entrega</label>
         <select id="pedido-direccion">
@@ -764,7 +772,7 @@
 </div>
 
 <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbxlgBF5H_5jVuO6oHZJekDCVzzhih3nDU_KTS7nRUuuyK1K0ZwbIakXbJ-O5RDlViBZ/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbwuilMeaEDYuAylOCs-n_rkYOL5LZhupbCvlMQYyuHLX5c5CpZLPfOhZTBQEHX7XfK9/exec";
 
   let currentMail = "";
   let currentClienteId = "";
@@ -775,7 +783,6 @@
   let savingPedido = false;
   let activeStatusFilter = "";
 
-  // ---- sesión expira a medianoche ----
   function scheduleSessionExpiry() {
     const now = new Date();
     const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 5);
@@ -788,7 +795,6 @@
     }, ms);
   }
 
-  // ---- helpers de vista ----
   function showView(id) {
     document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
     document.getElementById(id).classList.add("active");
@@ -836,15 +842,16 @@
       currentClienteId = s.clienteId;
       enterPedidos();
       return true;
-    } catch(e) { return false; }
+    } catch(e) {
+      return false;
+    }
   }
 
-  // ---- fecha de entrega estimada (cliente) ----
   function calcFechaEntregaCliente(dateStr) {
     if (!dateStr) return null;
     const [y, m, d] = dateStr.split("-").map(Number);
     const fecha = new Date(y, m - 1, d);
-    const dow = fecha.getDay(); // 0=Dom,1=Lun,...,6=Sab
+    const dow = fecha.getDay();
     let daysToFriday;
     if (dow === 1 || dow === 2) {
       daysToFriday = 5 - dow;
@@ -863,7 +870,10 @@
     const fecha = document.getElementById("pedido-fecha").value;
     const el = document.getElementById("estimated-delivery");
     const dateEl = document.getElementById("estimated-delivery-date");
-    if (!fecha) { el.classList.remove("visible"); return; }
+    if (!fecha) {
+      el.classList.remove("visible");
+      return;
+    }
     const est = calcFechaEntregaCliente(fecha);
     if (est) {
       dateEl.textContent = est;
@@ -873,14 +883,17 @@
     }
   }
 
-  // ---- modal ----
-  function showModal() { document.getElementById("pedido-modal").classList.add("active"); }
+  function showModal() {
+    document.getElementById("pedido-modal").classList.add("active");
+  }
+
   function hideModal() {
     document.getElementById("pedido-modal").classList.remove("active");
     clearMsg("pedido-modal-msg");
     document.getElementById("line-items-wrap").innerHTML = "";
     document.getElementById("pedido-fecha").value = "";
     document.getElementById("pedido-modo-entrega").value = "";
+    document.getElementById("pedido-direccion").value = "";
     document.getElementById("direccion-wrap").style.display = "none";
     document.getElementById("estimated-delivery").classList.remove("visible");
     editingPedidoId = "";
@@ -960,15 +973,50 @@
     return "";
   }
 
-  // ---- summary card filters ----
   function applySummaryFilter(filterValue) {
     activeStatusFilter = filterValue;
     document.querySelectorAll(".summary-card").forEach(c => {
       c.classList.toggle("active-filter", c.dataset.filter === filterValue);
     });
-    const sel = document.getElementById("filter-estado");
-    sel.value = filterValue;
     loadPedidos();
+  }
+
+  function renderPedidoMeta(p) {
+    return `
+      <div class="pedido-meta">
+        <div class="meta-box">
+          <div class="meta-label">Fecha del pedido</div>
+          <div class="meta-value">${escHtml(p.fechaPedido || "-")}</div>
+        </div>
+        <div class="meta-box">
+          <div class="meta-label">Modo de entrega</div>
+          <div class="meta-value">${escHtml(p.pedidoModoEntrega || "-")}</div>
+        </div>
+        ${p.pedidoDireccionEntrega ? `
+          <div class="meta-box">
+            <div class="meta-label">Dirección</div>
+            <div class="meta-value">${escHtml(p.pedidoDireccionEntrega)}</div>
+          </div>` : ""}
+        ${p.pedidoComentario ? `
+          <div class="meta-box">
+            <div class="meta-label">Comentario</div>
+            <div class="meta-value">${escHtml(p.pedidoComentario)}</div>
+          </div>` : ""}
+      </div>
+    `;
+  }
+
+  function renderPedidoItem(item) {
+    return `
+      <tr>
+        <td>
+          ${escHtml(item.producto)}
+          ${item.ajusteStock ? `<span class="stock-adjust">${escHtml(item.ajusteStock.texto)}</span>` : ""}
+        </td>
+        <td class="qty">${escHtml(String(item.cantidad))}</td>
+        <td>${escHtml(item.unidad)}</td>
+      </tr>
+    `;
   }
 
   async function loadPedidos() {
@@ -979,7 +1027,7 @@
     const fechaDesde = document.getElementById("filter-fecha-desde").value;
     const fechaHasta = document.getElementById("filter-fecha-hasta").value;
     const corteId = document.getElementById("filter-corte").value;
-    const estado = document.getElementById("filter-estado").value;
+    const estado = activeStatusFilter;
 
     try {
       const data = await api({
@@ -995,14 +1043,12 @@
 
       const grupos = data.grupos || [];
       const resumen = data.resumen || { total:0, preliminar:0, confirmado:0, entregado:0 };
-      pedidosCache = grupos.flatMap(g => g.pedidos);
+      pedidosCache = grupos.flatMap(g => (g.periodos || []).flatMap(periodo => periodo.pedidos || []));
 
       document.getElementById("sum-total").textContent = resumen.total || 0;
       document.getElementById("sum-preliminar").textContent = resumen.preliminar || 0;
       document.getElementById("sum-confirmado").textContent = resumen.confirmado || 0;
       document.getElementById("sum-entregado").textContent = resumen.entregado || 0;
-
-      updateEstadoFilter(data.estadosDisponibles || []);
 
       document.getElementById("pedidos-subtitle").textContent =
         !resumen.total ? "No hay pedidos para los filtros seleccionados." :
@@ -1020,47 +1066,50 @@
             <section class="status-group">
               <div class="status-head ${getStatusClass(grupo.status)}">
                 <h3>${escHtml(grupo.status)}</h3>
-                <span class="status-count">${grupo.pedidos.length} ${grupo.pedidos.length === 1 ? "pedido" : "pedidos"}</span>
+                <span class="status-count">${grupo.totalPedidos} ${grupo.totalPedidos === 1 ? "pedido" : "pedidos"}</span>
               </div>
-              ${grupo.pedidos.map((p, pi) => `
-                <article class="pedido-card ${getStatusClass(p.pedidoStatus)}" id="pedido-${gi}-${pi}">
-                  <div class="pedido-head" onclick="togglePedido('${gi}-${pi}')">
-                    <div class="pedido-head-left">
-                      <div class="pedido-num">Pedido #${escHtml(p.pedidoNumero)}</div>
-                      <div class="pedido-date">
-                        ${p.fechaEntrega ? `Entrega: ${escHtml(p.fechaEntrega)}` : "Sin fecha de entrega"}
+              ${(grupo.periodos || []).map((periodo, pi) => `
+                <div class="period-group">
+                  <div class="period-label">${escHtml(periodo.periodoLabel)}</div>
+                  ${(periodo.pedidos || []).map((p, pj) => `
+                    <article class="pedido-card ${getStatusClass(p.pedidoStatus)}" id="pedido-${gi}-${pi}-${pj}">
+                      <div class="pedido-head" onclick="togglePedido('${gi}-${pi}-${pj}')">
+                        <div class="pedido-head-left">
+                          <div class="pedido-num">Pedido #${escHtml(p.pedidoNumero)}</div>
+                          <div class="pedido-date">
+                            ${p.fechaEntrega ? `Entrega: ${escHtml(p.fechaEntrega)}` : "Sin fecha de entrega"}
+                          </div>
+                        </div>
+                        <div class="pedido-head-right">
+                          <span class="chip ${getStatusClass(p.pedidoStatus)}">${escHtml(p.pedidoStatus)}</span>
+                          <span class="chip">${p.items.length} ${p.items.length === 1 ? "item" : "items"}</span>
+                          ${p.editable ? `<span class="chip preliminar">Editable</span>` : ""}
+                        </div>
                       </div>
-                    </div>
-                    <div class="pedido-head-right">
-                      <span class="chip ${getStatusClass(p.pedidoStatus)}">${escHtml(p.pedidoStatus)}</span>
-                      <span class="chip">${p.items.length} ${p.items.length === 1 ? "item" : "items"}</span>
-                      ${p.editable ? `<span class="chip preliminar">Editable</span>` : ""}
-                    </div>
-                  </div>
-                  <div class="pedido-body">
-                    <table>
-                      <thead>
-                        <tr><th>Producto</th><th>Cantidad</th><th>Unidad</th></tr>
-                      </thead>
-                      <tbody>
-                        ${p.items.map(item => `
-                          <tr>
-                            <td>${escHtml(item.producto)}</td>
-                            <td class="qty">${escHtml(String(item.cantidad))}</td>
-                            <td>${escHtml(item.unidad)}</td>
-                          </tr>`).join("")}
-                      </tbody>
-                    </table>
-                    <div class="disclaimer">Todos los pedidos están sujetos a disponibilidad.</div>
-                    <div class="pedido-actions">
-                      <button class="btn-ghost" onclick="event.stopPropagation(); duplicatePedido('${escHtml(p.pedidoId)}')">Duplicar</button>
-                      ${p.editable ? `
-                        <button class="btn-secondary" onclick="event.stopPropagation(); openEditPedido('${escHtml(p.pedidoId)}')">Editar</button>
-                        <button class="btn-danger" onclick="event.stopPropagation(); deletePedido('${escHtml(p.pedidoId)}')">Eliminar</button>` : ""}
-                    </div>
-                  </div>
-                </article>`).join("")}
-            </section>`).join("")}
+                      <div class="pedido-body">
+                        ${renderPedidoMeta(p)}
+                        <table>
+                          <thead>
+                            <tr><th>Producto</th><th>Cantidad</th><th>Unidad</th></tr>
+                          </thead>
+                          <tbody>
+                            ${p.items.map(renderPedidoItem).join("")}
+                          </tbody>
+                        </table>
+                        <div class="disclaimer">Todos los pedidos están sujetos a disponibilidad. Si hubo falta de stock, la cantidad ajustada se muestra debajo del producto.</div>
+                        <div class="pedido-actions">
+                          <button class="btn-ghost" onclick="event.stopPropagation(); duplicatePedido('${escHtml(p.pedidoId)}')">Duplicar</button>
+                          ${p.editable ? `
+                            <button class="btn-secondary" onclick="event.stopPropagation(); openEditPedido('${escHtml(p.pedidoId)}')">Editar</button>
+                            <button class="btn-danger" onclick="event.stopPropagation(); deletePedido('${escHtml(p.pedidoId)}')">Eliminar</button>` : ""}
+                        </div>
+                      </div>
+                    </article>
+                  `).join("")}
+                </div>
+              `).join("")}
+            </section>
+          `).join("")}
         </div>`;
 
       const first = document.querySelector(".pedido-card");
@@ -1072,22 +1121,17 @@
     }
   }
 
-  function updateEstadoFilter(estados) {
-    const select = document.getElementById("filter-estado");
-    const current = select.value;
-    select.innerHTML = `<option value="">Todos los estados</option>` +
-      estados.map(e => `<option value="${escHtml(e)}">${escHtml(e)}</option>`).join("");
-    if ([...select.options].some(o => o.value === current)) select.value = current;
-  }
-
   function togglePedido(id) {
     document.getElementById("pedido-" + id).classList.toggle("open");
   }
 
-  function setTodayInModal() {
+  function getTodayInputValue() {
     const today = new Date();
-    document.getElementById("pedido-fecha").value =
-      `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
+    return `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,"0")}-${String(today.getDate()).padStart(2,"0")}`;
+  }
+
+  function setTodayInModal() {
+    document.getElementById("pedido-fecha").value = getTodayInputValue();
     updateEstimatedDelivery();
   }
 
@@ -1096,6 +1140,7 @@
     document.getElementById("pedido-modal-title").textContent = "Nuevo Pedido";
     document.getElementById("line-items-wrap").innerHTML = "";
     document.getElementById("pedido-modo-entrega").value = "";
+    document.getElementById("pedido-direccion").value = "";
     document.getElementById("direccion-wrap").style.display = "none";
     setTodayInModal();
     addLineItemRow();
@@ -1109,7 +1154,7 @@
     editingPedidoId = pedidoId;
     document.getElementById("pedido-modal-title").textContent = "Editar Pedido #" + pedido.pedidoNumero;
     document.getElementById("line-items-wrap").innerHTML = "";
-    document.getElementById("pedido-fecha").value = pedido.fechaPedidoInput || "";
+    document.getElementById("pedido-fecha").value = pedido.fechaPedidoInput || getTodayInputValue();
     document.getElementById("pedido-modo-entrega").value = pedido.pedidoModoEntrega || "";
 
     const dirWrap = document.getElementById("direccion-wrap");
@@ -1118,6 +1163,7 @@
       document.getElementById("pedido-direccion").value = pedido.pedidoDireccionEntrega || "";
     } else {
       dirWrap.style.display = "none";
+      document.getElementById("pedido-direccion").value = "";
     }
 
     updateEstimatedDelivery();
@@ -1143,6 +1189,7 @@
       document.getElementById("pedido-direccion").value = pedido.pedidoDireccionEntrega || "";
     } else {
       dirWrap.style.display = "none";
+      document.getElementById("pedido-direccion").value = "";
     }
 
     setTodayInModal();
@@ -1158,18 +1205,31 @@
     clearMsg("pedido-modal-msg");
 
     const items = collectLineItems();
-    const pedidoFecha = document.getElementById("pedido-fecha").value;
     const modoEntrega = document.getElementById("pedido-modo-entrega").value;
     const direccionId = document.getElementById("pedido-direccion").value;
 
-    if (!pedidoFecha) { showMsg("pedido-modal-msg", "Seleccioná una fecha para el pedido.", "error"); return; }
-    if (!modoEntrega) { showMsg("pedido-modal-msg", "Seleccioná el modo de entrega.", "error"); return; }
-    if (modoEntrega === "A DOMICILIO" && !direccionId) { showMsg("pedido-modal-msg", "Seleccioná una dirección de entrega.", "error"); return; }
-    if (!items.length) { showMsg("pedido-modal-msg", "Agregá al menos un corte.", "error"); return; }
+    if (!modoEntrega) {
+      showMsg("pedido-modal-msg", "Seleccioná el modo de entrega.", "error");
+      return;
+    }
+    if (modoEntrega === "A DOMICILIO" && !direccionId) {
+      showMsg("pedido-modal-msg", "Seleccioná una dirección de entrega.", "error");
+      return;
+    }
+    if (!items.length) {
+      showMsg("pedido-modal-msg", "Agregá al menos un corte.", "error");
+      return;
+    }
 
     for (const item of items) {
-      if (!item.productoId) { showMsg("pedido-modal-msg", "Todos los items deben tener un corte seleccionado.", "error"); return; }
-      if (!item.cantidad || Number(item.cantidad) <= 0) { showMsg("pedido-modal-msg", "Todas las cantidades deben ser mayores a 0.", "error"); return; }
+      if (!item.productoId) {
+        showMsg("pedido-modal-msg", "Todos los items deben tener un corte seleccionado.", "error");
+        return;
+      }
+      if (!item.cantidad || Number(item.cantidad) <= 0) {
+        showMsg("pedido-modal-msg", "Todas las cantidades deben ser mayores a 0.", "error");
+        return;
+      }
     }
 
     savingPedido = true;
@@ -1179,8 +1239,8 @@
 
     try {
       const payload = editingPedidoId
-        ? { action:"updatePedido", pedidoId:editingPedidoId, clienteId:currentClienteId, mail:currentMail, pedidoFecha, items, modoEntrega, direccionId }
-        : { action:"createPedido", clienteId:currentClienteId, mail:currentMail, pedidoFecha, items, modoEntrega, direccionId };
+        ? { action:"updatePedido", pedidoId:editingPedidoId, clienteId:currentClienteId, mail:currentMail, items, modoEntrega, direccionId }
+        : { action:"createPedido", clienteId:currentClienteId, mail:currentMail, items, modoEntrega, direccionId };
 
       const data = await api(payload);
 
@@ -1209,7 +1269,10 @@
 
     try {
       const data = await api({ action: "deletePedido", pedidoId });
-      if (!data.success) { alert(data.error || "No se pudo eliminar el pedido."); return; }
+      if (!data.success) {
+        alert(data.error || "No se pudo eliminar el pedido.");
+        return;
+      }
       await loadPedidos();
     } catch(err) {
       console.error(err);
@@ -1234,7 +1297,7 @@
     clienteDirecciones = [];
     pedidosCache = [];
     editingPedidoId = "";
-    savingPedido = "";
+    savingPedido = false;
     activeStatusFilter = "";
 
     document.getElementById("login-mail").value = "";
@@ -1243,30 +1306,33 @@
     document.getElementById("filter-fecha-desde").value = "";
     document.getElementById("filter-fecha-hasta").value = "";
     document.getElementById("filter-corte").innerHTML = `<option value="">Todos los cortes</option>`;
-    document.getElementById("filter-estado").innerHTML = `<option value="">Todos los estados</option>`;
-    document.querySelectorAll(".summary-card").forEach(c => c.classList.remove("active-filter"));
+    document.querySelectorAll(".summary-card").forEach(c => {
+      c.classList.toggle("active-filter", c.dataset.filter === "");
+    });
     hideModal();
     clearMsg("login-msg");
     clearSession();
   }
 
-  // ============================================================
-  // EVENTOS
-  // ============================================================
-
-  // Login
   document.getElementById("btn-login").addEventListener("click", async () => {
     clearMsg("login-msg");
     const mail = document.getElementById("login-mail").value.trim();
     const pass = document.getElementById("login-pass").value.trim();
-    if (!mail) { showMsg("login-msg", "Ingresá tu correo electrónico.", "error"); return; }
+    if (!mail) {
+      showMsg("login-msg", "Ingresá tu correo electrónico.", "error");
+      return;
+    }
 
     const btn = document.getElementById("btn-login");
-    btn.disabled = true; btn.textContent = "Verificando...";
+    btn.disabled = true;
+    btn.textContent = "Verificando...";
 
     try {
       const data = await api({ action:"login", mail, pass });
-      if (!data.success) { showMsg("login-msg", data.error || "Error al ingresar.", "error"); return; }
+      if (!data.success) {
+        showMsg("login-msg", data.error || "Error al ingresar.", "error");
+        return;
+      }
       currentMail = data.mail;
       currentClienteId = data.clienteId;
       if (data.status === "no_password") {
@@ -1278,7 +1344,8 @@
       console.error(err);
       showMsg("login-msg", "Error de conexión. Intentá de nuevo.", "error");
     } finally {
-      btn.disabled = false; btn.textContent = "Ingresar";
+      btn.disabled = false;
+      btn.textContent = "Ingresar";
     }
   });
 
@@ -1288,31 +1355,40 @@
     });
   });
 
-  // Set password
   document.getElementById("btn-setpass").addEventListener("click", async () => {
     clearMsg("setpass-msg");
     const newPass = document.getElementById("setpass-new").value.trim();
     const confirmPass = document.getElementById("setpass-confirm").value.trim();
-    if (!newPass || newPass.length < 6) { showMsg("setpass-msg", "La contraseña debe tener al menos 6 caracteres.", "error"); return; }
-    if (newPass !== confirmPass) { showMsg("setpass-msg", "Las contraseñas no coinciden.", "error"); return; }
+    if (!newPass || newPass.length < 6) {
+      showMsg("setpass-msg", "La contraseña debe tener al menos 6 caracteres.", "error");
+      return;
+    }
+    if (newPass !== confirmPass) {
+      showMsg("setpass-msg", "Las contraseñas no coinciden.", "error");
+      return;
+    }
 
     const btn = document.getElementById("btn-setpass");
-    btn.disabled = true; btn.textContent = "Guardando...";
+    btn.disabled = true;
+    btn.textContent = "Guardando...";
 
     try {
       const data = await api({ action:"setPassword", mail:currentMail, pass:newPass });
-      if (!data.success) { showMsg("setpass-msg", data.error || "Error al guardar.", "error"); return; }
+      if (!data.success) {
+        showMsg("setpass-msg", data.error || "Error al guardar.", "error");
+        return;
+      }
       showMsg("setpass-msg", "Contraseña creada correctamente.", "success");
       setTimeout(() => enterPedidos(), 700);
     } catch(err) {
       console.error(err);
       showMsg("setpass-msg", "Error de conexión.", "error");
     } finally {
-      btn.disabled = false; btn.textContent = "Guardar contraseña";
+      btn.disabled = false;
+      btn.textContent = "Guardar contraseña";
     }
   });
 
-  // Forgot password
   document.getElementById("btn-go-forgot").addEventListener("click", () => {
     clearMsg("forgot-msg");
     document.getElementById("forgot-mail").value = document.getElementById("login-mail").value;
@@ -1324,76 +1400,89 @@
   document.getElementById("btn-forgot-send").addEventListener("click", async () => {
     clearMsg("forgot-msg");
     const mail = document.getElementById("forgot-mail").value.trim();
-    if (!mail) { showMsg("forgot-msg", "Ingresá tu correo electrónico.", "error"); return; }
+    if (!mail) {
+      showMsg("forgot-msg", "Ingresá tu correo electrónico.", "error");
+      return;
+    }
 
     const btn = document.getElementById("btn-forgot-send");
-    btn.disabled = true; btn.textContent = "Enviando...";
+    btn.disabled = true;
+    btn.textContent = "Enviando...";
 
     try {
-      await api({ action:"requestPasswordReset", mail });
+      const data = await api({ action:"requestPasswordReset", mail });
+      if (!data.success) {
+        showMsg("forgot-msg", data.error || "No se pudo enviar el correo.", "error");
+        return;
+      }
       showMsg("forgot-msg", "Si el correo está registrado, vas a recibir el enlace en unos minutos.", "success");
     } catch(err) {
       console.error(err);
       showMsg("forgot-msg", "Error de conexión. Intentá de nuevo.", "error");
     } finally {
-      btn.disabled = false; btn.textContent = "Enviar enlace";
+      btn.disabled = false;
+      btn.textContent = "Enviar enlace";
     }
   });
 
-  // Reset password (desde link)
   document.getElementById("btn-reset-save").addEventListener("click", async () => {
     clearMsg("reset-msg");
     const newPass = document.getElementById("reset-new").value.trim();
     const confirmPass = document.getElementById("reset-confirm").value.trim();
-    if (!newPass || newPass.length < 6) { showMsg("reset-msg", "La contraseña debe tener al menos 6 caracteres.", "error"); return; }
-    if (newPass !== confirmPass) { showMsg("reset-msg", "Las contraseñas no coinciden.", "error"); return; }
+    if (!newPass || newPass.length < 6) {
+      showMsg("reset-msg", "La contraseña debe tener al menos 6 caracteres.", "error");
+      return;
+    }
+    if (newPass !== confirmPass) {
+      showMsg("reset-msg", "Las contraseñas no coinciden.", "error");
+      return;
+    }
 
     const token = new URLSearchParams(window.location.search).get("reset");
-    if (!token) { showMsg("reset-msg", "Enlace inválido.", "error"); return; }
+    if (!token) {
+      showMsg("reset-msg", "Enlace inválido.", "error");
+      return;
+    }
 
     const btn = document.getElementById("btn-reset-save");
-    btn.disabled = true; btn.textContent = "Guardando...";
+    btn.disabled = true;
+    btn.textContent = "Guardando...";
 
     try {
       const data = await api({ action:"resetPassword", token, pass:newPass });
-      if (!data.success) { showMsg("reset-msg", data.error || "No se pudo guardar.", "error"); return; }
+      if (!data.success) {
+        showMsg("reset-msg", data.error || "No se pudo guardar.", "error");
+        return;
+      }
       showMsg("reset-msg", "¡Contraseña actualizada! Iniciando sesión...", "success");
       currentMail = data.mail;
       currentClienteId = data.clienteId;
-      // limpiar token de la URL
       history.replaceState(null, "", window.location.pathname);
       setTimeout(() => enterPedidos(), 900);
     } catch(err) {
       console.error(err);
       showMsg("reset-msg", "Error de conexión.", "error");
     } finally {
-      btn.disabled = false; btn.textContent = "Guardar contraseña";
+      btn.disabled = false;
+      btn.textContent = "Guardar contraseña";
     }
   });
 
-  // Filtros sidebar
   document.getElementById("filter-fecha-desde").addEventListener("change", loadPedidos);
   document.getElementById("filter-fecha-hasta").addEventListener("change", loadPedidos);
   document.getElementById("filter-corte").addEventListener("change", loadPedidos);
-  document.getElementById("filter-estado").addEventListener("change", () => {
-    activeStatusFilter = document.getElementById("filter-estado").value;
-    document.querySelectorAll(".summary-card").forEach(c => {
-      c.classList.toggle("active-filter", c.dataset.filter === activeStatusFilter);
-    });
-    loadPedidos();
-  });
 
   document.getElementById("btn-clear-filters").addEventListener("click", () => {
     document.getElementById("filter-fecha-desde").value = "";
     document.getElementById("filter-fecha-hasta").value = "";
     document.getElementById("filter-corte").value = "";
-    document.getElementById("filter-estado").value = "";
     activeStatusFilter = "";
-    document.querySelectorAll(".summary-card").forEach(c => c.classList.remove("active-filter"));
+    document.querySelectorAll(".summary-card").forEach(c => {
+      c.classList.toggle("active-filter", c.dataset.filter === "");
+    });
     loadPedidos();
   });
 
-  // Summary cards clickeables
   document.querySelectorAll(".summary-card").forEach(card => {
     card.addEventListener("click", () => {
       const f = card.dataset.filter;
@@ -1405,23 +1494,18 @@
     });
   });
 
-  // Modal
   document.getElementById("btn-new-pedido").addEventListener("click", openNewPedido);
   document.getElementById("btn-close-modal").addEventListener("click", hideModal);
   document.getElementById("btn-cancel-modal").addEventListener("click", hideModal);
   document.getElementById("btn-add-line").addEventListener("click", () => addLineItemRow());
   document.getElementById("btn-save-pedido").addEventListener("click", savePedido);
 
-  // Fecha del pedido → actualizar entrega estimada
-  document.getElementById("pedido-fecha").addEventListener("change", updateEstimatedDelivery);
-
-  // Modo entrega → mostrar/ocultar dirección
   document.getElementById("pedido-modo-entrega").addEventListener("change", () => {
     const modo = document.getElementById("pedido-modo-entrega").value;
     document.getElementById("direccion-wrap").style.display = modo === "A DOMICILIO" ? "block" : "none";
+    if (modo !== "A DOMICILIO") document.getElementById("pedido-direccion").value = "";
   });
 
-  // Soporte popover
   document.getElementById("btn-support").addEventListener("click", (e) => {
     e.stopPropagation();
     document.getElementById("support-popover").classList.toggle("open");
@@ -1430,13 +1514,11 @@
     document.getElementById("support-popover").classList.remove("open");
   });
 
-  // Logout
   document.getElementById("btn-logout").addEventListener("click", () => {
     doLogout();
     showView("view-login");
   });
 
-  // ---- Arranque: ¿hay token de reset en URL? ----
   (function init() {
     const params = new URLSearchParams(window.location.search);
     const resetToken = params.get("reset");
