@@ -772,7 +772,7 @@
 </div>
 
 <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbwuilMeaEDYuAylOCs-n_rkYOL5LZhupbCvlMQYyuHLX5c5CpZLPfOhZTBQEHX7XfK9/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbw1dvd_gfVquQ-CXiBDWvAh3mTuU3IofnWT0-Ishs_qcpX_pbH2efCwOH4Krwjq-W_9/exec";
 
   let currentMail = "";
   let currentClienteId = "";
@@ -815,7 +815,20 @@
   async function api(payload) {
     const params = new URLSearchParams({ data: JSON.stringify(payload) });
     const res = await fetch(API_URL + "?" + params.toString(), { method: "GET", redirect: "follow" });
-    return res.json();
+    const text = await res.text();
+    let data = null;
+
+    try {
+      data = JSON.parse(text);
+    } catch (err) {
+      throw new Error("Respuesta inválida del servidor.");
+    }
+
+    if (!res.ok) {
+      throw new Error((data && data.error) || "Error HTTP " + res.status);
+    }
+
+    return data;
   }
 
   function escHtml(str) {
@@ -992,10 +1005,10 @@
           <div class="meta-label">Modo de entrega</div>
           <div class="meta-value">${escHtml(p.pedidoModoEntrega || "-")}</div>
         </div>
-        ${p.pedidoDireccionEntrega ? `
+        ${p.pedidoDireccionEntregaLabel ? `
           <div class="meta-box">
             <div class="meta-label">Dirección</div>
-            <div class="meta-value">${escHtml(p.pedidoDireccionEntrega)}</div>
+            <div class="meta-value">${escHtml(p.pedidoDireccionEntregaLabel)}</div>
           </div>` : ""}
         ${p.pedidoComentario ? `
           <div class="meta-box">
@@ -1037,7 +1050,7 @@
       });
 
       if (!data.success) {
-        listEl.innerHTML = `<div class="empty">Error al cargar pedidos.</div>`;
+        listEl.innerHTML = `<div class="empty">${escHtml(data.error || "Error al cargar pedidos.")}</div>`;
         return;
       }
 
@@ -1117,7 +1130,7 @@
 
     } catch(err) {
       console.error(err);
-      listEl.innerHTML = `<div class="empty">Error de conexión. Intentá de nuevo.</div>`;
+      listEl.innerHTML = `<div class="empty">${escHtml(err.message || "Error de conexión. Intentá de nuevo.")}</div>`;
     }
   }
 
